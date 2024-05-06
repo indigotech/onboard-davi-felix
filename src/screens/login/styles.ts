@@ -4,6 +4,11 @@ export const styles = StyleSheet.create({
   loginContainer: {
     marginTop: 32,
   },
+  errorsText: {
+    color: '#fc4444',
+    fontSize: 10,
+    marginLeft: 8,
+  },
   title: {
     color: '#090909',
     fontSize: 32,
