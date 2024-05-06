@@ -1,26 +1,17 @@
 import React from 'react';
 
-import {
-  SafeAreaView,
-  StatusBar,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
+
+import {Login} from './src/screens/login/Login';
+import {globalStyles} from './globalStyles';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const textStyle = {
-    color: '#000',
-  };
-
   return (
-    <SafeAreaView>
+    <SafeAreaView style={globalStyles.container}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <View>
-        <Text style={textStyle}>Hello, World!</Text>
-      </View>
+      <Login />
     </SafeAreaView>
   );
 }
