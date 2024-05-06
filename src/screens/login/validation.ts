@@ -43,7 +43,7 @@ export function validateLoginData(loginData: LoginData): LoginErrors {
       return {
         email: fieldErrors.email || [],
         password: fieldErrors.password || [],
-      }; // Returns an array of errors per field, leaving an empty array is there is no errors
+      };
     }
 
     return noErrorResponse; // Default to the no-error response
