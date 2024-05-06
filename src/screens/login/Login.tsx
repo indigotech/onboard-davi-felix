@@ -1,61 +1,61 @@
 import * as React from 'react';
 
-import {Text, View, TextInput, TouchableOpacity} from 'react-native';
+import {Text, View} from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import {useMutation, gql} from '@apollo/client';
+
+const LOGIN_USER = gql`
+  mutation Login($input: LoginInput!) {
+    login(data: $input) {
+      token
+    }
+  }
+`;
 
 import {styles} from './/styles';
-import {validateLoginData} from './validation';
+import {LoginForm} from './components/LoginForm';
 
 export const Login = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [emailError, setEmailError] = React.useState('');
-  const [passwordError, setPasswordError] = React.useState('');
 
-  const handleFormSubmit = () => {
-    // Reseting errors
-    setEmailError('');
-    setPasswordError('');
+  const [loginUser, {data, loading, error}] = useMutation(LOGIN_USER, {
+    onCompleted: handleLoginComplete,
+  });
 
-    const errors = validateLoginData({email, password});
-    if (errors.email.length > 0) {
-      setEmailError(errors.email[0]);
+  async function handleLoginComplete() {
+    const token = data.login.token;
+    try {
+      await AsyncStorage.setItem('ONBOARDING-APP:accessToken', token);
+    } catch {
+      console.log('Error saving token');
     }
-    if (errors.password.length > 0) {
-      setPasswordError(errors.password[0]);
-    }
+  }
+
+  const handleLoginUser = () => {
+    loginUser({
+      variables: {
+        input: {email, password},
+      },
+    });
   };
 
   return (
     <View style={styles.loginContainer}>
       <Text style={styles.title}>Bem-vindo(a) à Taqtile</Text>
-      <View style={styles.inputContainer}>
-        <View>
-          <Text style={styles.inputLabel}>E-mail</Text>
-          <TextInput
-            value={email}
-            onChangeText={setEmail}
-            style={styles.input}
-            autoCapitalize="none"
-            inputMode="email"
-            autoCorrect={false}
-          />
-          <Text style={styles.errorsText}>{emailError}</Text>
-        </View>
-        <View>
-          <Text style={styles.inputLabel}>Senha</Text>
-          <TextInput
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            style={styles.input}
-          />
-          <Text style={styles.errorsText}>{passwordError}</Text>
-        </View>
-      </View>
 
-      <TouchableOpacity style={styles.submitButton} onPress={handleFormSubmit}>
-        <Text style={styles.submitButtoText}>Entrar</Text>
-      </TouchableOpacity>
+      <LoginForm
+        email={email}
+        setEmail={setEmail}
+        password={password}
+        setPassword={setPassword}
+        handleLoginUser={handleLoginUser}
+        loading={loading}
+      />
+
+      {error ? <Text style={styles.feedbackText}>{error?.message}</Text> : null}
     </View>
   );
 };

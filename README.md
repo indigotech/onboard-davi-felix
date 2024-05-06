@@ -33,7 +33,7 @@ cd onboard-davi-felix
 
 ```bash
 
-nvm use 18
+nvm use 18.20.2
 
 ```
 
