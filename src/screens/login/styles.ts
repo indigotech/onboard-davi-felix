@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
     color: '#090909',
     fontSize: 32,
     fontWeight: 'bold',
+    marginBottom: 48,
   },
   inputLabel: {
     color: '#323232',
@@ -15,7 +16,6 @@ export const styles = StyleSheet.create({
     marginBottom: 8,
   },
   inputContainer: {
-    marginVertical: 32, // Space between title
     gap: 32, // Spacing between input groups
   },
   input: {
@@ -36,6 +36,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 8,
     borderRadius: 16,
+    marginTop: 48,
   },
   submitButtoText: {
     color: '#fff',

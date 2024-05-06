@@ -14,8 +14,8 @@ export const Login = () => {
           <TextInput
             style={styles.input}
             autoCapitalize="none"
-            inputMode="email" // Allows keyboard accessibily features for e-mail
-            autoCorrect={false} // Do not auto-correct user's e-mail
+            inputMode="email"
+            autoCorrect={false}
           />
         </View>
         <View>
