@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {SafeAreaView, ScrollView, Text, Alert} from 'react-native';
+import {SafeAreaView, Text, Alert, FlatList, View} from 'react-native';
 
 import {globalStyles} from '@src/globalStyles';
 import {styles} from './styles';
@@ -20,9 +20,14 @@ interface ListUsersData {
   users: {nodes: User[]};
 }
 
+interface PageData {
+  offset: number;
+  limit: number;
+}
+
 const GET_USERS = gql`
-  query ListUsers {
-    users {
+  query ListUsers($offset: Int, $limit: Int) {
+    users(data: {offset: $offset, limit: $limit}) {
       nodes {
         id
         name
@@ -33,11 +38,18 @@ const GET_USERS = gql`
 `;
 
 export const Home = () => {
-  const {data, loading, error, refetch} = useQuery<ListUsersData>(GET_USERS, {
+  const {data, loading, error, refetch, fetchMore} = useQuery<
+    ListUsersData,
+    PageData
+  >(GET_USERS, {
+    variables: {
+      offset: 0,
+      limit: 10,
+    },
     notifyOnNetworkStatusChange: true,
   });
 
-  const showAlert = () =>
+  function showAlert() {
     Alert.alert(
       'Erro',
       'Houve um erro na requisição para listagem dos usuários',
@@ -51,27 +63,35 @@ export const Home = () => {
         },
       ],
     );
+  }
+
+  function handleEndReached() {
+    fetchMore({
+      variables: {
+        offset: data?.users.nodes.length,
+      },
+    });
+  }
 
   if (error) {
     showAlert();
   }
 
-  if (loading) {
-    return <LoadingIndicator />;
-  }
-
   return (
     <SafeAreaView style={globalStyles.container}>
       <Text style={globalStyles.title}>Lista de usuários</Text>
-      <ScrollView style={styles.userListContainer}>
-        {data && data.users.nodes.length > 0 ? (
-          data.users.nodes.map(user => (
-            <UserItem name={user.name} email={user.email} key={user.id} />
-          ))
-        ) : (
-          <Text>Sem usuários para listar</Text>
-        )}
-      </ScrollView>
+      <View style={styles.userListContainer}>
+        <FlatList
+          data={data?.users.nodes || []}
+          renderItem={({item}) => (
+            <UserItem name={item.name} email={item.email} />
+          )}
+          keyExtractor={item => String(item.id)}
+          ListEmptyComponent={<Text>Sem usuários para listar</Text>}
+          onEndReached={handleEndReached}
+        />
+        {loading ? <LoadingIndicator /> : null}
+      </View>
     </SafeAreaView>
   );
 };
