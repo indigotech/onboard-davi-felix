@@ -16,8 +16,18 @@ interface User {
   email: string;
 }
 
+interface PageInfo {
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  offset: number;
+  limit: number;
+}
+
 interface ListUsersData {
-  users: {nodes: User[]};
+  users: {
+    nodes: User[];
+    pageInfo: PageInfo;
+  };
 }
 
 interface PageData {
@@ -32,6 +42,9 @@ const GET_USERS = gql`
         id
         name
         email
+      }
+      pageInfo {
+        hasNextPage
       }
     }
   }
@@ -71,7 +84,9 @@ export const Home = () => {
   }
 
   function handleEndReached() {
-    setCurrentPage(currentPage + 1);
+    if (data?.users.pageInfo.hasNextPage) {
+      setCurrentPage(currentPage + 1);
+    }
   }
 
   function handleQueryCompleted() {
