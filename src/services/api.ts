@@ -35,6 +35,7 @@ export const client = new ApolloClient({
               return {
                 __typename: incoming.__typename,
                 nodes: merged,
+                pageInfo: incoming.pageInfo,
               };
             },
           },

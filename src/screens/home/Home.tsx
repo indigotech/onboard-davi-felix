@@ -16,8 +16,18 @@ interface User {
   email: string;
 }
 
+interface PageInfo {
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  limit: number;
+  offset: number;
+}
+
 interface ListUsersData {
-  users: {nodes: User[]};
+  users: {
+    nodes: User[];
+    pageInfo: PageInfo;
+  };
 }
 
 interface PageData {
@@ -32,6 +42,9 @@ const GET_USERS = gql`
         id
         name
         email
+      }
+      pageInfo {
+        hasNextPage
       }
     }
   }
@@ -66,11 +79,13 @@ export const Home = () => {
   }
 
   function handleEndReached() {
-    fetchMore({
-      variables: {
-        offset: data?.users.nodes.length,
-      },
-    });
+    if (data?.users.pageInfo.hasNextPage) {
+      fetchMore({
+        variables: {
+          offset: data?.users.nodes.length,
+        },
+      });
+    }
   }
 
   if (error) {
