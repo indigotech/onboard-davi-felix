@@ -6,6 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  Keyboard,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import {styles} from './styles';
@@ -49,6 +51,7 @@ export const LoginForm = ({
   }
 
   function handleFormSubmit() {
+    Keyboard.dismiss();
     const isFormValid = handleFormValidation();
     if (isFormValid) {
       onLoginUser();
@@ -56,7 +59,7 @@ export const LoginForm = ({
   }
 
   return (
-    <View>
+    <KeyboardAvoidingView>
       <View style={styles.inputContainer}>
         <View>
           <Text style={styles.inputLabel}>E-mail</Text>
@@ -89,6 +92,6 @@ export const LoginForm = ({
           <ActivityIndicator />
         )}
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
