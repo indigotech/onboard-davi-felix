@@ -16,7 +16,7 @@ const LOGIN_USER = gql`
 `;
 
 import {styles} from './styles';
-import {marginWrapper} from '../../../marginWrapper';
+import {marginWrapper} from '@src/marginWrapper';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamsList} from '../Routes';
