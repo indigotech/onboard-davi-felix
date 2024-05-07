@@ -29,6 +29,7 @@ export const Login = ({navigation}: LoginScreenProps) => {
 
   const [loginUser, {data, loading, error}] = useMutation(LOGIN_USER, {
     onCompleted: handleLoginComplete,
+    onError: () => {},
   });
 
   async function handleLoginComplete() {
