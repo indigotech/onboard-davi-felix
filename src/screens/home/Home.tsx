@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {SafeAreaView, ScrollView, Text} from 'react-native';
+import {SafeAreaView, ScrollView, Text, Alert} from 'react-native';
 
 import {globalStyles} from '@src/globalStyles';
 import {styles} from './styles';
@@ -33,10 +33,27 @@ const GET_USERS = gql`
 `;
 
 export const Home = () => {
-  const {data, loading, error} = useQuery<ListUsersData>(GET_USERS);
+  const {data, loading, error, refetch} = useQuery<ListUsersData>(GET_USERS, {
+    notifyOnNetworkStatusChange: true,
+  });
+
+  const showAlert = () =>
+    Alert.alert(
+      'Erro',
+      'Houve um erro na requisição para listagem dos usuários',
+      [
+        {
+          text: 'Tentar novamente',
+          onPress: () => {
+            refetch();
+          },
+          style: 'default',
+        },
+      ],
+    );
 
   if (error) {
-    console.log(error);
+    showAlert();
   }
 
   if (loading) {
@@ -52,7 +69,7 @@ export const Home = () => {
             <UserItem name={user.name} email={user.email} key={user.id} />
           ))
         ) : (
-          <Text>Sem usuários para listas</Text>
+          <Text>Sem usuários para listar</Text>
         )}
       </ScrollView>
     </SafeAreaView>
