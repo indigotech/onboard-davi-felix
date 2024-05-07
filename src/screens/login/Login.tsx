@@ -14,7 +14,7 @@ const LOGIN_USER = gql`
   }
 `;
 
-import {styles} from './/styles';
+import {styles} from './styles';
 import {LoginForm} from './components/LoginForm';
 
 export const Login = () => {
@@ -34,13 +34,13 @@ export const Login = () => {
     }
   }
 
-  const handleLoginUser = () => {
+  function handleLoginUser() {
     loginUser({
       variables: {
         input: {email, password},
       },
     });
-  };
+  }
 
   return (
     <View style={styles.loginContainer}>
@@ -48,10 +48,10 @@ export const Login = () => {
 
       <LoginForm
         email={email}
-        setEmail={setEmail}
+        onEmailChange={setEmail}
         password={password}
-        setPassword={setPassword}
-        handleLoginUser={handleLoginUser}
+        onPasswordChange={setPassword}
+        onLoginUser={handleLoginUser}
         loading={loading}
       />
 

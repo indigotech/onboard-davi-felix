@@ -13,26 +13,25 @@ import {validateLoginData} from '../validation';
 
 interface LoginFormsProps {
   email: string;
-  setEmail: (email: string) => void;
+  onEmailChange: (email: string) => void;
   password: string;
-  setPassword: (email: string) => void;
+  onPasswordChange: (email: string) => void;
   loading: boolean;
-  handleLoginUser: () => void;
+  onLoginUser: () => void;
 }
 
 export const LoginForm = ({
   email,
-  setEmail,
+  onEmailChange,
   password,
-  setPassword,
-  handleLoginUser,
+  onPasswordChange,
+  onLoginUser,
   loading,
 }: LoginFormsProps) => {
   const [emailError, setEmailError] = React.useState('');
   const [passwordError, setPasswordError] = React.useState('');
 
-  const handleFormValidation = () => {
-    // Reseting errors
+  function handleFormValidation() {
     setEmailError('');
     setPasswordError('');
 
@@ -47,14 +46,14 @@ export const LoginForm = ({
     }
 
     return true;
-  };
+  }
 
-  const handleFormSubmit = () => {
+  function handleFormSubmit() {
     const isFormValid = handleFormValidation();
     if (isFormValid) {
-      handleLoginUser();
+      onLoginUser();
     }
-  };
+  }
 
   return (
     <View>
@@ -63,7 +62,7 @@ export const LoginForm = ({
           <Text style={styles.inputLabel}>E-mail</Text>
           <TextInput
             value={email}
-            onChangeText={setEmail}
+            onChangeText={onEmailChange}
             style={styles.input}
             autoCapitalize="none"
             inputMode="email"
@@ -75,7 +74,7 @@ export const LoginForm = ({
           <Text style={styles.inputLabel}>Senha</Text>
           <TextInput
             value={password}
-            onChangeText={setPassword}
+            onChangeText={onPasswordChange}
             secureTextEntry
             style={styles.input}
           />
