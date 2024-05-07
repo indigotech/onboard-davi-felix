@@ -16,7 +16,7 @@ const LOGIN_USER = gql`
 `;
 
 import {styles} from './styles';
-import {marginWrapper} from '../../../marginWrapper';
+import {marginWrapper} from '@src/marginWrapper';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamsList} from '../Routes';
@@ -29,6 +29,7 @@ export const Login = ({navigation}: LoginScreenProps) => {
 
   const [loginUser, {data, loading, error}] = useMutation(LOGIN_USER, {
     onCompleted: handleLoginComplete,
+    onError: () => {},
   });
 
   async function handleLoginComplete() {

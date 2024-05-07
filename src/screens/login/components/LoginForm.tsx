@@ -85,7 +85,10 @@ export const LoginForm = ({
         </View>
       </View>
 
-      <TouchableOpacity style={styles.submitButton} onPress={handleFormSubmit}>
+      <TouchableOpacity
+        style={styles.submitButton}
+        onPress={handleFormSubmit}
+        disabled={loading}>
         {!loading ? (
           <Text style={styles.submitButtoText}>Entrar</Text>
         ) : (
