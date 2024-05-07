@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
   },
   inputContainer: {
     gap: 32, // Spacing between input groups
+    marginTop: 40,
   },
   input: {
     borderRadius: 8,

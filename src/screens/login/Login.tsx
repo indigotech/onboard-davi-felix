@@ -16,7 +16,7 @@ const LOGIN_USER = gql`
 `;
 
 import {styles} from './styles';
-import {marginWrapper} from '@src/marginWrapper';
+import {globalStyles} from '@src/globalStyles';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamsList} from '../Routes';
@@ -51,9 +51,9 @@ export const Login = ({navigation}: LoginScreenProps) => {
   }
 
   return (
-    <SafeAreaView style={marginWrapper.container}>
+    <SafeAreaView style={globalStyles.container}>
       <View style={styles.loginContainer}>
-        <Text style={styles.title}>Bem-vindo(a) à Taqtile</Text>
+        <Text style={globalStyles.title}>Bem-vindo(a) à Taqtile</Text>
 
         <LoginForm
           email={email}
