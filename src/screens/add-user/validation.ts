@@ -11,6 +11,7 @@ const AddUserSchema = LoginSchema.extend({
   phone: z
     .string()
     .min(1, {message: 'O telefone é obrigatório'})
+    .max(11, {message: 'O telefone deve ter no máximo 11 caracteres'})
     .regex(/\d{11}/, {message: 'O telefone deve ser válido'}),
 });
 
