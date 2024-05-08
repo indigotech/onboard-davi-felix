@@ -32,11 +32,14 @@ const GET_USERS = gql`
 `;
 
 export const Home = () => {
-  const {data, loading, error, refetch} = useQuery<ListUsersData>(GET_USERS, {
+  const {data, loading, refetch} = useQuery<ListUsersData>(GET_USERS, {
     notifyOnNetworkStatusChange: true,
+    onError: showAlert,
   });
 
-  const showAlert = () =>
+  const users = data?.users.nodes;
+
+  function showAlert() {
     Alert.alert(
       'Erro',
       'Houve um erro na requisição para listagem dos usuários',
@@ -50,9 +53,6 @@ export const Home = () => {
         },
       ],
     );
-
-  if (error) {
-    showAlert();
   }
 
   if (loading) {
@@ -63,8 +63,8 @@ export const Home = () => {
     <SafeAreaView style={globalStyles.container}>
       <Text style={globalStyles.title}>Lista de usuários</Text>
       <ScrollView style={homeStyles.userListContainer}>
-        {data && data.users.nodes.length > 0 ? (
-          data.users.nodes.map(user => (
+        {users?.length ? (
+          users.map(user => (
             <UserItem name={user.name} email={user.email} key={user.id} />
           ))
         ) : (
