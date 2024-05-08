@@ -1,17 +1,11 @@
 import * as React from 'react';
 
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-  Keyboard,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {View, Keyboard, KeyboardAvoidingView} from 'react-native';
 
 import {loginFormStyles} from './styles';
 import {validateLoginData} from '../validation';
 import {FormField} from '@src/components/form-field/FormField';
+import {SubmitButton} from '@src/components/submit-button/SubmitButton';
 
 interface LoginFormsProps {
   email: string;
@@ -79,16 +73,11 @@ export const LoginForm = ({
         />
       </View>
 
-      <TouchableOpacity
-        style={loginFormStyles.submitButton}
-        onPress={handleFormSubmit}
-        disabled={loading}>
-        {!loading ? (
-          <Text style={loginFormStyles.submitButtoText}>Entrar</Text>
-        ) : (
-          <ActivityIndicator />
-        )}
-      </TouchableOpacity>
+      <SubmitButton
+        onFormSubmit={handleFormSubmit}
+        loading={loading}
+        text="Entrar"
+      />
     </KeyboardAvoidingView>
   );
 };
