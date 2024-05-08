@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-export const styles = StyleSheet.create({
+export const userItemStyles = StyleSheet.create({
   userContainer: {
     padding: 8,
     borderColor: '#000',
