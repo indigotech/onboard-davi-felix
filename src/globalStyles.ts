@@ -2,7 +2,8 @@ import {StyleSheet} from 'react-native';
 
 export const globalStyles = StyleSheet.create({
   container: {
-    marginTop: 16,
+    marginTop: 64,
+    marginBottom: 32,
     marginHorizontal: 8,
     flex: 1,
   },

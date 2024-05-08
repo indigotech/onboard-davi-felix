@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-export const styles = StyleSheet.create({
+export const formFieldStyles = StyleSheet.create({
   errorsText: {
     color: '#fc4444',
     fontSize: 10,

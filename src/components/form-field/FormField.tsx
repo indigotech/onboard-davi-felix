@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Text, TextInput, TextInputProps, View} from 'react-native';
 
-import {styles} from './styles';
+import {formFieldStyles} from './styles';
 
 interface FormFieldProps {
   errorText: string;
@@ -17,14 +17,14 @@ export const FormField = ({
 }: FormFieldProps & TextInputProps) => {
   return (
     <View>
-      <Text style={styles.inputLabel}>{fieldLabel}</Text>
+      <Text style={formFieldStyles.inputLabel}>{fieldLabel}</Text>
       <TextInput
         value={value}
         onChangeText={onChangeText}
-        style={styles.input}
+        style={formFieldStyles.input}
         {...props}
       />
-      <Text style={styles.errorsText}>{errorText}</Text>
+      <Text style={formFieldStyles.errorsText}>{errorText}</Text>
     </View>
   );
 };

@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-export const styles = StyleSheet.create({
+export const floatingActionsStyles = StyleSheet.create({
   button: {
     backgroundColor: '#000',
     borderRadius: 32,
