@@ -3,7 +3,6 @@ import * as React from 'react';
 import {
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   ActivityIndicator,
   Keyboard,
@@ -12,6 +11,7 @@ import {
 
 import {loginFormStyles} from './styles';
 import {validateLoginData} from '../validation';
+import {FormField} from '@src/components/form-field/FormField';
 
 interface LoginFormsProps {
   email: string;
@@ -61,28 +61,22 @@ export const LoginForm = ({
   return (
     <KeyboardAvoidingView>
       <View style={loginFormStyles.inputContainer}>
-        <View>
-          <Text style={loginFormStyles.inputLabel}>E-mail</Text>
-          <TextInput
-            value={email}
-            onChangeText={onEmailChange}
-            style={loginFormStyles.input}
-            autoCapitalize="none"
-            inputMode="email"
-            autoCorrect={false}
-          />
-          <Text style={loginFormStyles.errorsText}>{emailError}</Text>
-        </View>
-        <View>
-          <Text style={loginFormStyles.inputLabel}>Senha</Text>
-          <TextInput
-            value={password}
-            onChangeText={onPasswordChange}
-            secureTextEntry
-            style={loginFormStyles.input}
-          />
-          <Text style={loginFormStyles.errorsText}>{passwordError}</Text>
-        </View>
+        <FormField
+          value={email}
+          onChangeText={onEmailChange}
+          autoCapitalize="none"
+          inputMode="email"
+          autoCorrect={false}
+          fieldLabel="E-mail"
+          errorText={emailError}
+        />
+        <FormField
+          value={password}
+          onChangeText={onPasswordChange}
+          secureTextEntry
+          fieldLabel="Senha"
+          errorText={passwordError}
+        />
       </View>
 
       <TouchableOpacity
