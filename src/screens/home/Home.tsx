@@ -90,13 +90,15 @@ export const Home = ({navigation}: HomeScreenProps) => {
   }
 
   function handleEndReached() {
-    fetchMore({
-      variables: {
-        offset: users.length,
-      },
-    }).then(result => {
-      setLimit(users.length + result.data.users.nodes.length);
-    });
+    if (data?.users.pageInfo.hasNextPage) {
+      fetchMore({
+        variables: {
+          offset: users.length,
+        },
+      }).then(result => {
+        setLimit(users.length + result.data.users.nodes.length);
+      });
+    }
   }
 
   function handlePressAddButton() {
