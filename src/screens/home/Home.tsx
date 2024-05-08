@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {SafeAreaView, ScrollView, Text, Alert} from 'react-native';
+import {SafeAreaView, Text, Alert, FlatList, View} from 'react-native';
 
 import {globalStyles} from '@src/globalStyles';
 import {UserItem} from './components/UserItem';
@@ -15,29 +15,57 @@ interface User {
   email: string;
 }
 
+interface PageInfo {
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  offset: number;
+  limit: number;
+}
+
 interface ListUsersData {
-  users: {nodes: User[]};
+  users: {
+    nodes: User[];
+    pageInfo: PageInfo;
+  };
+}
+
+interface PageData {
+  offset: number;
+  limit: number;
 }
 
 const GET_USERS = gql`
-  query ListUsers {
-    users {
+  query ListUsers($offset: Int, $limit: Int) {
+    users(data: {offset: $offset, limit: $limit}) {
       nodes {
         id
         name
         email
       }
+      pageInfo {
+        hasNextPage
+      }
     }
   }
 `;
 
-export const Home = () => {
-  const {data, loading, refetch} = useQuery<ListUsersData>(GET_USERS, {
-    notifyOnNetworkStatusChange: true,
-    onError: showAlert,
-  });
+const PAGE_SIZE = 10;
 
-  const users = data?.users.nodes;
+export const Home = () => {
+  const [currentPage, setCurrentPage] = React.useState(0);
+  const [users, setUsers] = React.useState<User[]>([]);
+  const {data, loading, refetch} = useQuery<ListUsersData, PageData>(
+    GET_USERS,
+    {
+      variables: {
+        offset: currentPage * PAGE_SIZE,
+        limit: PAGE_SIZE,
+      },
+      onCompleted: handleQueryCompleted,
+      onError: showAlert,
+      notifyOnNetworkStatusChange: true,
+    },
+  );
 
   function showAlert() {
     Alert.alert(
@@ -55,22 +83,33 @@ export const Home = () => {
     );
   }
 
-  if (loading) {
-    return <LoadingIndicator />;
+  function handleEndReached() {
+    if (data?.users.pageInfo.hasNextPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
+
+  function handleQueryCompleted(resultaData: ListUsersData) {
+    setUsers(oldUsers =>
+      resultaData ? [...oldUsers, ...resultaData.users.nodes] : oldUsers,
+    );
   }
 
   return (
     <SafeAreaView style={globalStyles.container}>
       <Text style={globalStyles.title}>Lista de usuários</Text>
-      <ScrollView style={homeStyles.userListContainer}>
-        {users?.length ? (
-          users.map(user => (
-            <UserItem name={user.name} email={user.email} key={user.id} />
-          ))
-        ) : (
-          <Text>Sem usuários para listar</Text>
-        )}
-      </ScrollView>
+      <View style={homeStyles.userListContainer}>
+        <FlatList
+          data={users}
+          renderItem={({item}) => (
+            <UserItem name={item.name} email={item.email} />
+          )}
+          keyExtractor={item => String(item.id)}
+          ListEmptyComponent={<Text>Sem usuários para listar</Text>}
+          onEndReached={handleEndReached}
+        />
+        {loading ? <LoadingIndicator /> : null}
+      </View>
     </SafeAreaView>
   );
 };
