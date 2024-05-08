@@ -1,15 +1,52 @@
 import * as React from 'react';
 
-import {KeyboardAvoidingView, ScrollView, Text, View} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  Text,
+  View,
+  SafeAreaView,
+} from 'react-native';
+
+import {FormField} from '@src/components/form-field/FormField';
+import {SubmitButton} from '@src/components/submit-button/SubmitButton';
+import DatePicker from 'react-native-date-picker';
+import RNPickerSelect from 'react-native-picker-select';
 
 import {globalStyles} from '@src/globalStyles';
 import {addUserStyles} from './styles';
-import {FormField} from '@src/components/form-field/FormField';
-import DatePicker from 'react-native-date-picker';
 import {formFieldStyles} from '@src/components/form-field/styles';
-import RNPickerSelect from 'react-native-picker-select';
-import {SubmitButton} from '@src/components/submit-button/SubmitButton';
-import {SafeAreaView} from 'react-native-safe-area-context';
+
+import {validateNewUser} from './validation';
+
+interface ErrorObject {
+  email: string[];
+  name: string[];
+  phone: string[];
+  role: string[];
+  password: string[];
+  birthDate: string[];
+}
+type ErrorObjectIndex =
+  | 'email'
+  | 'name'
+  | 'phone'
+  | 'password'
+  | 'birthDate'
+  | 'role';
+
+type ErrorState = ErrorObject | null;
+
+/**
+ * Returns the first error of the array containing the errors of the field `name`,
+ * and returns empty string if there are no errrors
+ */
+function getError(errors: ErrorState, name: ErrorObjectIndex): string {
+  if (errors) {
+    return errors[name].length ? errors[name][0] : '';
+  }
+  return '';
+}
 
 export const AddUser = () => {
   const [name, setName] = React.useState('');
@@ -18,6 +55,24 @@ export const AddUser = () => {
   const [birthDate, setBirthDate] = React.useState<Date>(new Date(Date.now()));
   const [phone, setPhone] = React.useState('');
   const [role, setRole] = React.useState<'user' | 'admin'>('user');
+
+  const [errors, setErrors] = React.useState<ErrorState>(null);
+
+  function handleSubmitForm() {
+    const {isValid, errors: validationErrors} = validateNewUser({
+      name,
+      email,
+      phone,
+      role: role,
+      password,
+      birthDate,
+    });
+    if (isValid) {
+      // Form is valid
+    } else {
+      setErrors(validationErrors);
+    }
+  }
 
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -32,14 +87,14 @@ export const AddUser = () => {
             fieldLabel="Nome"
             onChangeText={setName}
             value={name}
-            errorText=""
+            errorText={getError(errors, 'name')}
             placeholder="Taki Tiler"
           />
           <FormField
             fieldLabel="E-mail"
             onChangeText={setEmail}
             value={email}
-            errorText=""
+            errorText={getError(errors, 'email')}
             inputMode="email"
             autoCapitalize="none"
             autoCorrect={false}
@@ -50,7 +105,7 @@ export const AddUser = () => {
             onChangeText={setPassword}
             value={password}
             secureTextEntry
-            errorText=""
+            errorText={getError(errors, 'password')}
           />
           <View>
             <Text style={formFieldStyles.inputLabel}>Data de nascimento</Text>
@@ -61,12 +116,15 @@ export const AddUser = () => {
                 mode="date"
               />
             </View>
+            <Text style={formFieldStyles.errorsText}>
+              {getError(errors, 'birthDate')}
+            </Text>
           </View>
           <FormField
             fieldLabel="Telefone"
             onChangeText={setPhone}
             value={phone}
-            errorText=""
+            errorText={getError(errors, 'phone')}
             inputMode="numeric"
             placeholder="11970707070"
           />
@@ -85,10 +143,13 @@ export const AddUser = () => {
                 inputAndroidContainer: formFieldStyles.input,
               }}
             />
+            <Text style={formFieldStyles.errorsText}>
+              {getError(errors, 'role')}
+            </Text>
           </View>
         </ScrollView>
         <SubmitButton
-          onFormSubmit={() => {}}
+          onFormSubmit={handleSubmitForm}
           text="Cadastrar"
           loading={false}
         />

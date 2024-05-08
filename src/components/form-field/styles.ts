@@ -11,10 +11,6 @@ export const formFieldStyles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 8,
   },
-  inputContainer: {
-    gap: 32, // Spacing between input groups
-    marginTop: 40,
-  },
   input: {
     borderRadius: 8,
     borderColor: '#bcbcbc',

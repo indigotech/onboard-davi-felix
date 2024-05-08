@@ -18,7 +18,7 @@ const refinePasswordValidation = (password: string) => {
   return false;
 };
 
-const LoginSchema = z.object({
+export const LoginSchema = z.object({
   // Translating messages to agree with the interface
   email: z
     .string()
