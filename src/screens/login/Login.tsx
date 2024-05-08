@@ -15,8 +15,8 @@ const LOGIN_USER = gql`
   }
 `;
 
-import {styles} from './styles';
-import {marginWrapper} from '@src/marginWrapper';
+import {loginStyles} from './styles';
+import {globalStyles} from '@src/globalStyles';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamsList} from '../Routes';
@@ -51,9 +51,9 @@ export const Login = ({navigation}: LoginScreenProps) => {
   }
 
   return (
-    <SafeAreaView style={marginWrapper.container}>
-      <View style={styles.loginContainer}>
-        <Text style={styles.title}>Bem-vindo(a) à Taqtile</Text>
+    <SafeAreaView style={globalStyles.container}>
+      <View style={loginStyles.loginContainer}>
+        <Text style={globalStyles.title}>Bem-vindo(a) à Taqtile</Text>
 
         <LoginForm
           email={email}
@@ -65,7 +65,7 @@ export const Login = ({navigation}: LoginScreenProps) => {
         />
 
         {error ? (
-          <Text style={styles.feedbackText}>{error?.message}</Text>
+          <Text style={loginStyles.feedbackText}>{error?.message}</Text>
         ) : null}
       </View>
     </SafeAreaView>
