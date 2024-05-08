@@ -6,6 +6,7 @@ import {
   Text,
   View,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 
 import {FormField} from '@src/components/form-field/FormField';
@@ -17,17 +18,54 @@ import {globalStyles} from '@src/globalStyles';
 import {addUserStyles} from './styles';
 import {formFieldStyles} from '@src/components/form-field/styles';
 
-import {validateNewUser, noErrors} from './validation';
+import {
+  validateNewUser,
+  NewUser,
+  ErrorObjectIndex,
+  noErrors,
+} from './validation';
 
-type ErrorObjectIndex =
-  | 'email'
-  | 'name'
-  | 'phone'
-  | 'password'
-  | 'birthDate'
-  | 'role';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamsList} from '../Routes';
 
-export const AddUser = () => {
+import {ApolloError, gql, useMutation} from '@apollo/client';
+
+interface AddUserResponse {
+  data: {
+    createUser: {
+      id: number;
+      name: string;
+    };
+  };
+}
+interface AddUserVariables {
+  data: NewUser;
+}
+
+type AddUserScreenProps = NativeStackScreenProps<
+  RootStackParamsList,
+  'AddUser'
+>;
+
+const ADD_USER = gql`
+  mutation CreateNewUser($data: UserInput!) {
+    createUser(data: $data) {
+      id
+      name
+    }
+  }
+`;
+
+export const AddUser = ({navigation}: AddUserScreenProps) => {
+  const [addUser, {loading, reset}] = useMutation<
+    AddUserResponse,
+    AddUserVariables
+  >(ADD_USER, {
+    onCompleted: handleCreateNewUserComplete,
+    onError: handleCreateNewUserError,
+    refetchQueries: ['ListUsers'],
+  });
+
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -38,17 +76,46 @@ export const AddUser = () => {
   const [errors, setErrors] =
     React.useState<Record<ErrorObjectIndex, string[]>>(noErrors);
 
+  function handleCreateNewUserComplete() {
+    navigation.navigate('Home');
+  }
+
+  function handleCreateNewUserError(error: ApolloError) {
+    Alert.alert('Erro', `Houve um erro: ${error.message}`, [
+      {
+        text: 'Ok',
+        onPress: reset,
+        style: 'default',
+      },
+    ]);
+  }
+
+  function handleCreateNewUser() {
+    addUser({
+      variables: {
+        data: {
+          name,
+          email,
+          phone,
+          role,
+          password,
+          birthDate,
+        },
+      },
+    });
+  }
+
   function handleSubmitForm() {
     const {isValid, errors: validationErrors} = validateNewUser({
       name,
       email,
       phone,
-      role: role,
+      role,
       password,
       birthDate,
     });
     if (isValid) {
-      // Form is valid
+      handleCreateNewUser();
     } else {
       setErrors(validationErrors);
     }
@@ -131,7 +198,7 @@ export const AddUser = () => {
         <SubmitButton
           onFormSubmit={handleSubmitForm}
           text="Cadastrar"
-          loading={false}
+          loading={loading}
         />
       </KeyboardAvoidingView>
     </SafeAreaView>
