@@ -89,9 +89,9 @@ export const Home = () => {
     }
   }
 
-  function handleQueryCompleted() {
+  function handleQueryCompleted(resultaData: ListUsersData) {
     setUsers(oldUsers =>
-      data ? [...oldUsers, ...data.users.nodes] : oldUsers,
+      resultaData ? [...oldUsers, ...resultaData.users.nodes] : oldUsers,
     );
   }
 
@@ -100,7 +100,7 @@ export const Home = () => {
       <Text style={globalStyles.title}>Lista de usuários</Text>
       <View style={homeStyles.userListContainer}>
         <FlatList
-          data={users || []}
+          data={users}
           renderItem={({item}) => (
             <UserItem name={item.name} email={item.email} />
           )}
