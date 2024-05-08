@@ -38,6 +38,17 @@ export const client = new ApolloClient({
                 pageInfo: incoming.pageInfo,
               };
             },
+            read(existing, {args}) {
+              const {offset, limit} = args?.data;
+              if (existing) {
+                const users = existing.nodes;
+                return {
+                  nodes: users.slice(offset, offset + limit),
+                  pageInfo: existing.pageInfo,
+                };
+              }
+              return existing;
+            },
           },
         },
       },
