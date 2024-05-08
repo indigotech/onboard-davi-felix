@@ -47,13 +47,15 @@ export const AddUser = () => {
           secureTextEntry
           errorText=""
         />
-        <Text style={formFieldStyles.inputLabel}>Data de nascimento</Text>
-        <View style={addUserStyles.datePickerContainer}>
-          <DatePicker
-            date={birthDate}
-            onDateChange={setBirthDate}
-            mode="date"
-          />
+        <View>
+          <Text style={formFieldStyles.inputLabel}>Data de nascimento</Text>
+          <View style={addUserStyles.datePickerContainer}>
+            <DatePicker
+              date={birthDate}
+              onDateChange={setBirthDate}
+              mode="date"
+            />
+          </View>
         </View>
         <KeyboardAvoidingView behavior="position">
           <FormField
@@ -62,23 +64,25 @@ export const AddUser = () => {
             value={phone}
             errorText=""
             inputMode="numeric"
-            placeholder="(11) 97070-7070"
+            placeholder="11970707070"
           />
         </KeyboardAvoidingView>
-        <Text style={formFieldStyles.inputLabel}>Papel</Text>
-        <RNPickerSelect
-          onValueChange={setRole}
-          items={[
-            {label: 'Usuário', value: 'user'},
-            {label: 'Administrador', value: 'admin'},
-          ]}
-          value={role}
-          placeholder={{label: 'Selecione um papel para o usuário'}}
-          style={{
-            inputIOSContainer: formFieldStyles.input,
-            inputAndroidContainer: formFieldStyles.input,
-          }}
-        />
+        <View>
+          <Text style={formFieldStyles.inputLabel}>Papel</Text>
+          <RNPickerSelect
+            onValueChange={setRole}
+            items={[
+              {label: 'Usuário', value: 'user'},
+              {label: 'Administrador', value: 'admin'},
+            ]}
+            value={role}
+            placeholder={{label: 'Selecione um papel para o usuário'}}
+            style={{
+              inputIOSContainer: formFieldStyles.input,
+              inputAndroidContainer: formFieldStyles.input,
+            }}
+          />
+        </View>
       </ScrollView>
       <SubmitButton onFormSubmit={() => {}} text="Cadastrar" loading={false} />
     </SafeAreaView>
