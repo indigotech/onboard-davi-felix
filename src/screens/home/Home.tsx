@@ -4,7 +4,7 @@ import {SafeAreaView, ScrollView, Text} from 'react-native';
 
 import {globalStyles} from '@src/globalStyles';
 import {UserItem} from './components/UserItem';
-import {styles} from './styles';
+import {homeStyles} from './styles';
 
 const dummyUsers = [
   {id: 1, name: 'Davi Felix', email: 'davi.felix@taqtile.com.br'},
@@ -51,7 +51,7 @@ export const Home = () => {
   return (
     <SafeAreaView style={globalStyles.container}>
       <Text style={globalStyles.title}>Lista de usuários</Text>
-      <ScrollView style={styles.userListContainer}>
+      <ScrollView style={homeStyles.userListContainer}>
         {dummyUsers.map(user => (
           <UserItem name={user.name} email={user.email} key={user.id} />
         ))}

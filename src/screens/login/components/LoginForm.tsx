@@ -10,7 +10,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 
-import {styles} from './styles';
+import {loginFormStyles} from './styles';
 import {validateLoginData} from '../validation';
 
 interface LoginFormsProps {
@@ -60,37 +60,37 @@ export const LoginForm = ({
 
   return (
     <KeyboardAvoidingView>
-      <View style={styles.inputContainer}>
+      <View style={loginFormStyles.inputContainer}>
         <View>
-          <Text style={styles.inputLabel}>E-mail</Text>
+          <Text style={loginFormStyles.inputLabel}>E-mail</Text>
           <TextInput
             value={email}
             onChangeText={onEmailChange}
-            style={styles.input}
+            style={loginFormStyles.input}
             autoCapitalize="none"
             inputMode="email"
             autoCorrect={false}
           />
-          <Text style={styles.errorsText}>{emailError}</Text>
+          <Text style={loginFormStyles.errorsText}>{emailError}</Text>
         </View>
         <View>
-          <Text style={styles.inputLabel}>Senha</Text>
+          <Text style={loginFormStyles.inputLabel}>Senha</Text>
           <TextInput
             value={password}
             onChangeText={onPasswordChange}
             secureTextEntry
-            style={styles.input}
+            style={loginFormStyles.input}
           />
-          <Text style={styles.errorsText}>{passwordError}</Text>
+          <Text style={loginFormStyles.errorsText}>{passwordError}</Text>
         </View>
       </View>
 
       <TouchableOpacity
-        style={styles.submitButton}
+        style={loginFormStyles.submitButton}
         onPress={handleFormSubmit}
         disabled={loading}>
         {!loading ? (
-          <Text style={styles.submitButtoText}>Entrar</Text>
+          <Text style={loginFormStyles.submitButtoText}>Entrar</Text>
         ) : (
           <ActivityIndicator />
         )}
