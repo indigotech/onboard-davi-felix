@@ -1,22 +1,25 @@
 import * as React from 'react';
 
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {userItemStyles} from './styles';
 
 interface UserItemProps {
   name: string;
   email: string;
+  onPress: () => void;
 }
 
-export const UserItem = ({name, email}: UserItemProps) => {
+export const UserItem = ({name, email, onPress}: UserItemProps) => {
   return (
-    <View style={userItemStyles.userContainer}>
-      <Text>
-        <Text style={userItemStyles.mainText}>Nome:</Text> {name}
-      </Text>
-      <Text>
-        <Text style={userItemStyles.mainText}>E-mail:</Text> {email}
-      </Text>
-    </View>
+    <TouchableOpacity onPress={onPress}>
+      <View style={userItemStyles.userContainer}>
+        <Text>
+          <Text style={userItemStyles.mainText}>Nome:</Text> {name}
+        </Text>
+        <Text>
+          <Text style={userItemStyles.mainText}>E-mail:</Text> {email}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };

@@ -106,6 +106,12 @@ export const Home = ({navigation}: HomeScreenProps) => {
     navigation.navigate('AddUser');
   }
 
+  function handleUserPress(userId: number) {
+    navigation.navigate('UserDetail', {
+      userId,
+    });
+  }
+
   return (
     <SafeAreaView style={globalStyles.container}>
       <Text style={globalStyles.title}>Lista de usuários</Text>
@@ -113,7 +119,11 @@ export const Home = ({navigation}: HomeScreenProps) => {
         <FlatList
           data={users}
           renderItem={({item}) => (
-            <UserItem name={item.name} email={item.email} />
+            <UserItem
+              name={item.name}
+              email={item.email}
+              onPress={() => handleUserPress(item.id)}
+            />
           )}
           keyExtractor={item => String(item.id)}
           ListEmptyComponent={<Text>Sem usuários para listar</Text>}
