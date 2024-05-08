@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {ScrollView, Text, View} from 'react-native';
+import {KeyboardAvoidingView, ScrollView, Text, View} from 'react-native';
 
 import {globalStyles} from '@src/globalStyles';
 import {addUserStyles} from './styles';
@@ -8,6 +8,8 @@ import {FormField} from '@src/components/form-field/FormField';
 import DatePicker from 'react-native-date-picker';
 import {formFieldStyles} from '@src/components/form-field/styles';
 import RNPickerSelect from 'react-native-picker-select';
+import {SubmitButton} from '@src/components/submit-button/SubmitButton';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export const AddUser = () => {
   const [name, setName] = React.useState('');
@@ -18,9 +20,9 @@ export const AddUser = () => {
   const [birthDate, setBirthDate] = React.useState<Date>(new Date(Date.now()));
 
   return (
-    <ScrollView style={globalStyles.container}>
+    <SafeAreaView style={globalStyles.container}>
       <Text style={globalStyles.title}>Adicionar novo usuário</Text>
-      <View style={addUserStyles.addUserContainer}>
+      <ScrollView style={addUserStyles.addUserContainer}>
         <FormField
           fieldLabel="Nome"
           onChangeText={setName}
@@ -53,29 +55,32 @@ export const AddUser = () => {
             mode="date"
           />
         </View>
-        <FormField
-          fieldLabel="Telefone"
-          onChangeText={setPhone}
-          value={phone}
-          errorText=""
-          inputMode="numeric"
-          placeholder="(11) 97070-7070"
+        <KeyboardAvoidingView behavior="position">
+          <FormField
+            fieldLabel="Telefone"
+            onChangeText={setPhone}
+            value={phone}
+            errorText=""
+            inputMode="numeric"
+            placeholder="(11) 97070-7070"
+          />
+        </KeyboardAvoidingView>
+        <Text style={formFieldStyles.inputLabel}>Papel</Text>
+        <RNPickerSelect
+          onValueChange={setRole}
+          items={[
+            {label: 'Usuário', value: 'user'},
+            {label: 'Administrador', value: 'admin'},
+          ]}
+          value={role}
+          placeholder={{label: 'Selecione um papel para o usuário'}}
+          style={{
+            inputIOSContainer: formFieldStyles.input,
+            inputAndroidContainer: formFieldStyles.input,
+          }}
         />
-      </View>
-      <Text style={formFieldStyles.inputLabel}>Papel</Text>
-      <RNPickerSelect
-        onValueChange={setRole}
-        items={[
-          {label: 'Usuário', value: 'user'},
-          {label: 'Administrador', value: 'admin'},
-        ]}
-        value={role}
-        placeholder={{label: 'Selecione um papel para o usuário'}}
-        style={{
-          inputIOSContainer: formFieldStyles.input,
-          inputAndroidContainer: formFieldStyles.input,
-        }}
-      />
-    </ScrollView>
+      </ScrollView>
+      <SubmitButton onFormSubmit={() => {}} text="Cadastrar" loading={false} />
+    </SafeAreaView>
   );
 };
