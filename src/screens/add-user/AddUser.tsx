@@ -17,16 +17,8 @@ import {globalStyles} from '@src/globalStyles';
 import {addUserStyles} from './styles';
 import {formFieldStyles} from '@src/components/form-field/styles';
 
-import {validateNewUser} from './validation';
+import {validateNewUser, noErrors} from './validation';
 
-interface ErrorObject {
-  email: string[];
-  name: string[];
-  phone: string[];
-  role: string[];
-  password: string[];
-  birthDate: string[];
-}
 type ErrorObjectIndex =
   | 'email'
   | 'name'
@@ -34,19 +26,6 @@ type ErrorObjectIndex =
   | 'password'
   | 'birthDate'
   | 'role';
-
-type ErrorState = ErrorObject | null;
-
-/**
- * Returns the first error of the array containing the errors of the field `name`,
- * and returns empty string if there are no errrors
- */
-function getError(errors: ErrorState, name: ErrorObjectIndex): string {
-  if (errors) {
-    return errors[name].length ? errors[name][0] : '';
-  }
-  return '';
-}
 
 export const AddUser = () => {
   const [name, setName] = React.useState('');
@@ -56,7 +35,8 @@ export const AddUser = () => {
   const [phone, setPhone] = React.useState('');
   const [role, setRole] = React.useState<'user' | 'admin'>('user');
 
-  const [errors, setErrors] = React.useState<ErrorState>(null);
+  const [errors, setErrors] =
+    React.useState<Record<ErrorObjectIndex, string[]>>(noErrors);
 
   function handleSubmitForm() {
     const {isValid, errors: validationErrors} = validateNewUser({
@@ -87,14 +67,14 @@ export const AddUser = () => {
             fieldLabel="Nome"
             onChangeText={setName}
             value={name}
-            errorText={getError(errors, 'name')}
+            errorText={errors.name?.[0] ?? ''}
             placeholder="Taki Tiler"
           />
           <FormField
             fieldLabel="E-mail"
             onChangeText={setEmail}
             value={email}
-            errorText={getError(errors, 'email')}
+            errorText={errors.email?.[0] ?? ''}
             inputMode="email"
             autoCapitalize="none"
             autoCorrect={false}
@@ -105,7 +85,7 @@ export const AddUser = () => {
             onChangeText={setPassword}
             value={password}
             secureTextEntry
-            errorText={getError(errors, 'password')}
+            errorText={errors.password?.[0] ?? ''}
           />
           <View>
             <Text style={formFieldStyles.inputLabel}>Data de nascimento</Text>
@@ -117,14 +97,14 @@ export const AddUser = () => {
               />
             </View>
             <Text style={formFieldStyles.errorsText}>
-              {getError(errors, 'birthDate')}
+              {errors.birthDate?.[0] ?? ''}
             </Text>
           </View>
           <FormField
             fieldLabel="Telefone"
             onChangeText={setPhone}
             value={phone}
-            errorText={getError(errors, 'phone')}
+            errorText={errors.phone?.[0] ?? ''}
             inputMode="numeric"
             placeholder="11970707070"
           />
@@ -144,7 +124,7 @@ export const AddUser = () => {
               }}
             />
             <Text style={formFieldStyles.errorsText}>
-              {getError(errors, 'role')}
+              {errors.role?.[0] ?? ''}
             </Text>
           </View>
         </ScrollView>
