@@ -8,6 +8,9 @@ import {homeStyles} from './styles';
 import {LoadingIndicator} from '@src/components/loading-indicator/LoadingIndicator';
 import {FloatingActionButton} from '@src/components/floating-action-button/FloatingActionButton';
 
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamsList} from '../Routes';
+
 import {gql, useQuery} from '@apollo/client';
 
 interface User {
@@ -50,28 +53,24 @@ const GET_USERS = gql`
   }
 `;
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamsList} from '../Routes';
-
 type HomeScreenProps = NativeStackScreenProps<RootStackParamsList, 'Home'>;
 
 const PAGE_SIZE = 10;
 
 export const Home = ({navigation}: HomeScreenProps) => {
-  const [currentPage, setCurrentPage] = React.useState(0);
-  const [users, setUsers] = React.useState<User[]>([]);
-  const {data, loading, refetch} = useQuery<ListUsersData, PageData>(
+  const {data, loading, refetch, fetchMore} = useQuery<ListUsersData, PageData>(
     GET_USERS,
     {
       variables: {
-        offset: currentPage * PAGE_SIZE,
+        offset: 0,
         limit: PAGE_SIZE,
       },
-      onCompleted: handleQueryCompleted,
       onError: showAlert,
       notifyOnNetworkStatusChange: true,
     },
   );
+
+  const users = data?.users.nodes ?? [];
 
   function showAlert() {
     Alert.alert(
@@ -90,15 +89,11 @@ export const Home = ({navigation}: HomeScreenProps) => {
   }
 
   function handleEndReached() {
-    if (data?.users.pageInfo.hasNextPage) {
-      setCurrentPage(currentPage + 1);
-    }
-  }
-
-  function handleQueryCompleted(resultaData: ListUsersData) {
-    setUsers(oldUsers =>
-      resultaData ? [...oldUsers, ...resultaData.users.nodes] : oldUsers,
-    );
+    fetchMore({
+      variables: {
+        offset: users.length,
+      },
+    });
   }
 
   function handlePressAddButton() {
@@ -117,6 +112,8 @@ export const Home = ({navigation}: HomeScreenProps) => {
           keyExtractor={item => String(item.id)}
           ListEmptyComponent={<Text>Sem usuários para listar</Text>}
           onEndReached={handleEndReached}
+          refreshing={loading}
+          onRefresh={() => refetch({offset: 0, limit: PAGE_SIZE})}
         />
         {loading ? <LoadingIndicator /> : null}
       </View>

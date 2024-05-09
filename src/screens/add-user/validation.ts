@@ -1,6 +1,14 @@
 import {ZodError, z} from 'zod';
 import {LoginSchema} from '../login/validation';
 
+export type ErrorObjectIndex =
+  | 'email'
+  | 'name'
+  | 'phone'
+  | 'password'
+  | 'birthDate'
+  | 'role';
+
 const AddUserSchema = LoginSchema.extend({
   name: z.string().min(1, {message: 'O nome é obrigatório'}),
   role: z.enum(['user', 'admin'], {message: 'O tipo é obrigatório'}),
@@ -15,7 +23,7 @@ const AddUserSchema = LoginSchema.extend({
     .regex(/\d{11}/, {message: 'O telefone deve conter 11 dígitos numéricos'}),
 });
 
-interface NewUser {
+export interface NewUser {
   name: string;
   email: string;
   phone: string;
