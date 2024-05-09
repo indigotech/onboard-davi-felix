@@ -20,8 +20,7 @@ import {formFieldStyles} from '@src/components/form-field/styles';
 
 import {validateNewUser, ErrorObjectIndex, noErrors} from './validation';
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamsList} from '../Routes';
+import {ScreenProps} from '../Routes';
 
 import {ApolloError, useMutation} from '@apollo/client';
 
@@ -31,12 +30,7 @@ import {
   ADD_USER_MUTATION,
 } from '@src/graphql/addUser';
 
-type AddUserScreenProps = NativeStackScreenProps<
-  RootStackParamsList,
-  'AddUser'
->;
-
-export const AddUser = ({navigation}: AddUserScreenProps) => {
+export const AddUser = ({navigation}: ScreenProps<'AddUser'>) => {
   const [addUser, {loading, reset}] = useMutation<
     AddUserResponse,
     AddUserVariables

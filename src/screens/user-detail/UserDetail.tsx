@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamsList} from '../Routes';
+import {ScreenProps} from '../Routes';
 
 import {LoadingIndicator} from '@src/components/loading-indicator/LoadingIndicator';
 
@@ -20,12 +19,7 @@ import {
   FETCH_USER_QUERY,
 } from '@src/graphql/userDetail';
 
-type UserDetailScreenProps = NativeStackScreenProps<
-  RootStackParamsList,
-  'UserDetail'
->;
-
-export const UserDetail = ({route}: UserDetailScreenProps) => {
+export const UserDetail = ({route}: ScreenProps<'UserDetail'>) => {
   const {userId} = route?.params;
 
   const {data, loading, refetch} = useQuery<GetUserResponse, GetUserVariables>(

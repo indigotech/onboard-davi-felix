@@ -10,8 +10,7 @@ import {useMutation} from '@apollo/client';
 import {loginStyles} from './styles';
 import {globalStyles} from '@src/globalStyles';
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamsList} from '../Routes';
+import {ScreenProps} from '../Routes';
 
 import {
   LoginResponse,
@@ -19,9 +18,7 @@ import {
   LOGIN_USER_MUTATION,
 } from '@src/graphql/login';
 
-type LoginScreenProps = NativeStackScreenProps<RootStackParamsList, 'Login'>;
-
-export const Login = ({navigation}: LoginScreenProps) => {
+export const Login = ({navigation}: ScreenProps<'Login'>) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 

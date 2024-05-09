@@ -8,18 +8,15 @@ import {homeStyles} from './styles';
 import {LoadingIndicator} from '@src/components/loading-indicator/LoadingIndicator';
 import {FloatingActionButton} from '@src/components/floating-action-button/FloatingActionButton';
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamsList} from '../Routes';
+import {ScreenProps} from '../Routes';
 
 import {useQuery} from '@apollo/client';
 
 import {ListUsersData, PageData, GET_USERS_QUERY} from '@src/graphql/listUsers';
 
-type HomeScreenProps = NativeStackScreenProps<RootStackParamsList, 'Home'>;
-
 const PAGE_SIZE = 10;
 
-export const Home = ({navigation}: HomeScreenProps) => {
+export const Home = ({navigation}: ScreenProps<'Home'>) => {
   const [limit, setLimit] = React.useState(PAGE_SIZE);
   const {data, loading, refetch, fetchMore} = useQuery<ListUsersData, PageData>(
     GET_USERS_QUERY,
