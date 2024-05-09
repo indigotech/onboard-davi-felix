@@ -161,6 +161,8 @@ export const AddUser = ({navigation}: ScreenProps<'AddUser'>) => {
               style={{
                 inputIOSContainer: formFieldStyles.input,
                 inputAndroidContainer: formFieldStyles.input,
+                inputAndroid: {color: 'black'},
+                inputIOS: {color: 'black'},
               }}
             />
             <Text style={formFieldStyles.errorsText}>

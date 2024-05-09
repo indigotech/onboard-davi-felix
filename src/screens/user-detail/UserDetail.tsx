@@ -66,33 +66,33 @@ export const UserDetail = ({route}: ScreenProps<'UserDetail'>) => {
       <Title>Detalhes do usuário</Title>
       <View>
         <View style={userDetailStyles.userDetailsContainer}>
-          <Text>
+          <Text style={userDetailStyles.userDetailtText}>
             <Text style={userDetailStyles.propertyTitle}>ID:</Text> {userId}
           </Text>
 
-          <Text>
+          <Text style={userDetailStyles.userDetailtText}>
             <Text style={userDetailStyles.propertyTitle}>Nome:</Text>{' '}
             {user?.name}
           </Text>
 
-          <Text>
+          <Text style={userDetailStyles.userDetailtText}>
             <Text style={userDetailStyles.propertyTitle}>E-mail:</Text>{' '}
             {user?.email}
           </Text>
 
-          <Text>
+          <Text style={userDetailStyles.userDetailtText}>
             <Text style={userDetailStyles.propertyTitle}>
               Data de nascimento:
             </Text>{' '}
             {formatDate(user?.birthDate ?? '')}
           </Text>
 
-          <Text>
+          <Text style={userDetailStyles.userDetailtText}>
             <Text style={userDetailStyles.propertyTitle}>Permissão:</Text>{' '}
             {roleLabels[user?.role ?? 'default']}
           </Text>
 
-          <Text>
+          <Text style={userDetailStyles.userDetailtText}>
             <Text style={userDetailStyles.propertyTitle}>Telefone:</Text>{' '}
             {formatPhoneNumber(user?.phone ?? '')}
           </Text>

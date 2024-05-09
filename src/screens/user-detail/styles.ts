@@ -5,7 +5,11 @@ export const userDetailStyles = StyleSheet.create({
     gap: 8,
     marginTop: 32,
   },
+  userDetailtText: {
+    color: 'black',
+  },
   propertyTitle: {
+    color: 'black',
     fontWeight: 'bold',
   },
 });

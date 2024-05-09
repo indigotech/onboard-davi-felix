@@ -14,6 +14,7 @@ export const formFieldStyles = StyleSheet.create({
   input: {
     borderRadius: 8,
     borderColor: '#bcbcbc',
+    color: 'black',
     // Borders as the task photo
     borderBottomWidth: 1,
     borderTopWidth: 1,

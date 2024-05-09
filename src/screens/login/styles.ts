@@ -6,6 +6,6 @@ export const loginStyles = StyleSheet.create({
   },
   feedbackText: {
     marginVertical: 40,
-    color: 'fc4444',
+    color: '#fc4444',
   },
 });
