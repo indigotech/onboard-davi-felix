@@ -1,15 +1,31 @@
 import * as React from 'react';
 
-import {KeyboardAvoidingView, ScrollView, Text, View} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  Text,
+  View,
+  SafeAreaView,
+} from 'react-native';
+
+import {FormField} from '@src/components/form-field/FormField';
+import {SubmitButton} from '@src/components/submit-button/SubmitButton';
+import DatePicker from 'react-native-date-picker';
+import RNPickerSelect from 'react-native-picker-select';
 
 import {globalStyles} from '@src/globalStyles';
 import {addUserStyles} from './styles';
-import {FormField} from '@src/components/form-field/FormField';
-import DatePicker from 'react-native-date-picker';
 import {formFieldStyles} from '@src/components/form-field/styles';
-import RNPickerSelect from 'react-native-picker-select';
-import {SubmitButton} from '@src/components/submit-button/SubmitButton';
-import {SafeAreaView} from 'react-native-safe-area-context';
+
+import {validateNewUser, noErrors} from './validation';
+
+type ErrorObjectIndex =
+  | 'email'
+  | 'name'
+  | 'phone'
+  | 'password'
+  | 'birthDate'
+  | 'role';
 
 export const AddUser = () => {
   const [name, setName] = React.useState('');
@@ -18,6 +34,25 @@ export const AddUser = () => {
   const [birthDate, setBirthDate] = React.useState<Date>(new Date(Date.now()));
   const [phone, setPhone] = React.useState('');
   const [role, setRole] = React.useState<'user' | 'admin'>('user');
+
+  const [errors, setErrors] =
+    React.useState<Record<ErrorObjectIndex, string[]>>(noErrors);
+
+  function handleSubmitForm() {
+    const {isValid, errors: validationErrors} = validateNewUser({
+      name,
+      email,
+      phone,
+      role: role,
+      password,
+      birthDate,
+    });
+    if (isValid) {
+      // Form is valid
+    } else {
+      setErrors(validationErrors);
+    }
+  }
 
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -32,14 +67,14 @@ export const AddUser = () => {
             fieldLabel="Nome"
             onChangeText={setName}
             value={name}
-            errorText=""
+            errorText={errors.name?.[0] ?? ''}
             placeholder="Taki Tiler"
           />
           <FormField
             fieldLabel="E-mail"
             onChangeText={setEmail}
             value={email}
-            errorText=""
+            errorText={errors.email?.[0] ?? ''}
             inputMode="email"
             autoCapitalize="none"
             autoCorrect={false}
@@ -50,7 +85,7 @@ export const AddUser = () => {
             onChangeText={setPassword}
             value={password}
             secureTextEntry
-            errorText=""
+            errorText={errors.password?.[0] ?? ''}
           />
           <View>
             <Text style={formFieldStyles.inputLabel}>Data de nascimento</Text>
@@ -61,12 +96,15 @@ export const AddUser = () => {
                 mode="date"
               />
             </View>
+            <Text style={formFieldStyles.errorsText}>
+              {errors.birthDate?.[0] ?? ''}
+            </Text>
           </View>
           <FormField
             fieldLabel="Telefone"
             onChangeText={setPhone}
             value={phone}
-            errorText=""
+            errorText={errors.phone?.[0] ?? ''}
             inputMode="numeric"
             placeholder="11970707070"
           />
@@ -85,10 +123,13 @@ export const AddUser = () => {
                 inputAndroidContainer: formFieldStyles.input,
               }}
             />
+            <Text style={formFieldStyles.errorsText}>
+              {errors.role?.[0] ?? ''}
+            </Text>
           </View>
         </ScrollView>
         <SubmitButton
-          onFormSubmit={() => {}}
+          onFormSubmit={handleSubmitForm}
           text="Cadastrar"
           loading={false}
         />
