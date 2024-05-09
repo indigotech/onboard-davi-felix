@@ -94,6 +94,7 @@ export const Home = ({navigation}: HomeScreenProps) => {
       fetchMore({
         variables: {
           offset: users.length,
+          limit: PAGE_SIZE,
         },
       }).then(result => {
         setLimit(users.length + result.data.users.nodes.length);
