@@ -14,6 +14,7 @@
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
+    "react-dom": "18.2.0",
     "graphql": "^16.8.1",
     "react": "18.2.0",
     "react-native": "0.74.1",
@@ -23,7 +24,8 @@
     "zod": "^3.23.6",
     "react-native-date-picker": "5.0.2",
     "react-native-picker-select": "9.1.3",
-    "@react-native-picker/picker": "2.7.5"
+    "@react-native-picker/picker": "2.7.5",
+    "styled-components": "6.1.10"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

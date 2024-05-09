@@ -1,15 +1,12 @@
-import {StyleSheet} from 'react-native';
+import styled from 'styled-components/native';
 
-export const globalStyles = StyleSheet.create({
-  container: {
-    marginTop: 32,
-    marginBottom: 32,
-    marginHorizontal: 8,
-    flex: 1,
-  },
-  title: {
-    color: '#090909',
-    fontSize: 32,
-    fontWeight: 'bold',
-  },
-});
+export const GlobalContainer = styled.SafeAreaView`
+  margin: 32px 8px;
+  flex: 1;
+`;
+
+export const Title = styled.Text`
+  color: #090909;
+  font-size: 32px;
+  font-weight: bold;
+`;

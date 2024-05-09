@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import {SafeAreaView, Text, Alert, FlatList, View} from 'react-native';
+import {Text, Alert, FlatList, View} from 'react-native';
 
-import {globalStyles} from '@src/globalStyles';
+import {GlobalContainer, Title} from '@src/globalStyles';
 import {UserItem} from './components/UserItem';
 import {homeStyles} from './styles';
 import {LoadingIndicator} from '@src/components/loading-indicator/LoadingIndicator';
@@ -72,8 +72,8 @@ export const Home = ({navigation}: ScreenProps<'Home'>) => {
   }
 
   return (
-    <SafeAreaView style={globalStyles.container}>
-      <Text style={globalStyles.title}>Lista de usuários</Text>
+    <GlobalContainer>
+      <Title>Lista de usuários</Title>
       <View style={homeStyles.userListContainer}>
         <FlatList
           data={users}
@@ -85,7 +85,9 @@ export const Home = ({navigation}: ScreenProps<'Home'>) => {
             />
           )}
           keyExtractor={item => String(item.id)}
-          ListEmptyComponent={<Text>Sem usuários para listar</Text>}
+          ListEmptyComponent={
+            loading ? null : <Text>Sem usuários para listar</Text>
+          }
           onEndReached={handleEndReached}
           refreshing={loading}
           onRefresh={() => refetch({offset: 0, limit: PAGE_SIZE})}
@@ -97,6 +99,6 @@ export const Home = ({navigation}: ScreenProps<'Home'>) => {
         iconName="plus"
         iconColor="#fff"
       />
-    </SafeAreaView>
+    </GlobalContainer>
   );
 };
