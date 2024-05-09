@@ -3,7 +3,7 @@ import {Text, TextInput, TextInputProps, View} from 'react-native';
 
 import {formFieldStyles} from './styles';
 
-interface FormFieldProps {
+interface FormFieldProps extends TextInputProps {
   errorText: string;
   fieldLabel: string;
 }
@@ -14,7 +14,7 @@ export const FormField = ({
   errorText,
   fieldLabel,
   ...props
-}: FormFieldProps & TextInputProps) => {
+}: FormFieldProps) => {
   return (
     <View>
       <Text style={formFieldStyles.inputLabel}>{fieldLabel}</Text>
