@@ -84,6 +84,7 @@ export const Home = ({navigation}: ScreenProps<'Home'>) => {
       <View style={homeStyles.userListContainer}>
         <FlatList
           data={users}
+          onEndReachedThreshold={2}
           renderItem={({item}) => (
             <UserItem
               name={item.name}
