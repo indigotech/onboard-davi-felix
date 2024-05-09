@@ -1,17 +1,11 @@
 import * as React from 'react';
 
-import {
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  ActivityIndicator,
-  Keyboard,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {View, Keyboard, KeyboardAvoidingView} from 'react-native';
 
 import {loginFormStyles} from './styles';
 import {validateLoginData} from '../validation';
+import {FormField} from '@src/components/form-field/FormField';
+import {SubmitButton} from '@src/components/submit-button/SubmitButton';
 
 interface LoginFormsProps {
   email: string;
@@ -61,40 +55,29 @@ export const LoginForm = ({
   return (
     <KeyboardAvoidingView>
       <View style={loginFormStyles.inputContainer}>
-        <View>
-          <Text style={loginFormStyles.inputLabel}>E-mail</Text>
-          <TextInput
-            value={email}
-            onChangeText={onEmailChange}
-            style={loginFormStyles.input}
-            autoCapitalize="none"
-            inputMode="email"
-            autoCorrect={false}
-          />
-          <Text style={loginFormStyles.errorsText}>{emailError}</Text>
-        </View>
-        <View>
-          <Text style={loginFormStyles.inputLabel}>Senha</Text>
-          <TextInput
-            value={password}
-            onChangeText={onPasswordChange}
-            secureTextEntry
-            style={loginFormStyles.input}
-          />
-          <Text style={loginFormStyles.errorsText}>{passwordError}</Text>
-        </View>
+        <FormField
+          value={email}
+          onChangeText={onEmailChange}
+          autoCapitalize="none"
+          inputMode="email"
+          autoCorrect={false}
+          fieldLabel="E-mail"
+          errorText={emailError}
+        />
+        <FormField
+          value={password}
+          onChangeText={onPasswordChange}
+          secureTextEntry
+          fieldLabel="Senha"
+          errorText={passwordError}
+        />
       </View>
 
-      <TouchableOpacity
-        style={loginFormStyles.submitButton}
-        onPress={handleFormSubmit}
-        disabled={loading}>
-        {!loading ? (
-          <Text style={loginFormStyles.submitButtoText}>Entrar</Text>
-        ) : (
-          <ActivityIndicator />
-        )}
-      </TouchableOpacity>
+      <SubmitButton
+        onFormSubmit={handleFormSubmit}
+        loading={loading}
+        text="Entrar"
+      />
     </KeyboardAvoidingView>
   );
 };

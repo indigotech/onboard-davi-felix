@@ -6,6 +6,7 @@ import {globalStyles} from '@src/globalStyles';
 import {UserItem} from './components/UserItem';
 import {homeStyles} from './styles';
 import {LoadingIndicator} from '@src/components/loading-indicator/LoadingIndicator';
+import {FloatingActionButton} from '@src/components/floating-action-button/FloatingActionButton';
 
 import {gql, useQuery} from '@apollo/client';
 
@@ -49,9 +50,14 @@ const GET_USERS = gql`
   }
 `;
 
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamsList} from '../Routes';
+
+type HomeScreenProps = NativeStackScreenProps<RootStackParamsList, 'Home'>;
+
 const PAGE_SIZE = 10;
 
-export const Home = () => {
+export const Home = ({navigation}: HomeScreenProps) => {
   const [currentPage, setCurrentPage] = React.useState(0);
   const [users, setUsers] = React.useState<User[]>([]);
   const {data, loading, refetch} = useQuery<ListUsersData, PageData>(
@@ -95,6 +101,10 @@ export const Home = () => {
     );
   }
 
+  function handlePressAddButton() {
+    navigation.navigate('AddUser');
+  }
+
   return (
     <SafeAreaView style={globalStyles.container}>
       <Text style={globalStyles.title}>Lista de usuários</Text>
@@ -110,6 +120,11 @@ export const Home = () => {
         />
         {loading ? <LoadingIndicator /> : null}
       </View>
+      <FloatingActionButton
+        onPress={handlePressAddButton}
+        iconName="plus"
+        iconColor="#fff"
+      />
     </SafeAreaView>
   );
 };
