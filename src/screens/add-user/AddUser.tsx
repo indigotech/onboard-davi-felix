@@ -18,49 +18,29 @@ import {globalStyles} from '@src/globalStyles';
 import {addUserStyles} from './styles';
 import {formFieldStyles} from '@src/components/form-field/styles';
 
-import {
-  validateNewUser,
-  NewUser,
-  ErrorObjectIndex,
-  noErrors,
-} from './validation';
+import {validateNewUser, ErrorObjectIndex, noErrors} from './validation';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamsList} from '../Routes';
 
-import {ApolloError, gql, useMutation} from '@apollo/client';
+import {ApolloError, useMutation} from '@apollo/client';
 
-interface AddUserResponse {
-  data: {
-    createUser: {
-      id: number;
-      name: string;
-    };
-  };
-}
-interface AddUserVariables {
-  data: NewUser;
-}
+import {
+  AddUserResponse,
+  AddUserVariables,
+  ADD_USER_MUTATION,
+} from '@src/graphql/addUser';
 
 type AddUserScreenProps = NativeStackScreenProps<
   RootStackParamsList,
   'AddUser'
 >;
 
-const ADD_USER = gql`
-  mutation CreateNewUser($data: UserInput!) {
-    createUser(data: $data) {
-      id
-      name
-    }
-  }
-`;
-
 export const AddUser = ({navigation}: AddUserScreenProps) => {
   const [addUser, {loading, reset}] = useMutation<
     AddUserResponse,
     AddUserVariables
-  >(ADD_USER, {
+  >(ADD_USER_MUTATION, {
     onCompleted: handleCreateNewUserComplete,
     onError: handleCreateNewUserError,
     refetchQueries: ['ListUsers'],

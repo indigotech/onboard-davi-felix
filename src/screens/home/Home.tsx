@@ -11,47 +11,9 @@ import {FloatingActionButton} from '@src/components/floating-action-button/Float
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamsList} from '../Routes';
 
-import {gql, useQuery} from '@apollo/client';
+import {useQuery} from '@apollo/client';
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
-interface PageInfo {
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-  offset: number;
-  limit: number;
-}
-
-interface ListUsersData {
-  users: {
-    nodes: User[];
-    pageInfo: PageInfo;
-  };
-}
-
-interface PageData {
-  offset: number;
-  limit: number;
-}
-
-const GET_USERS = gql`
-  query ListUsers($offset: Int, $limit: Int) {
-    users(data: {offset: $offset, limit: $limit}) {
-      nodes {
-        id
-        name
-        email
-      }
-      pageInfo {
-        hasNextPage
-      }
-    }
-  }
-`;
+import {ListUsersData, PageData, GET_USERS_QUERY} from '@src/graphql/listUsers';
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamsList, 'Home'>;
 
@@ -60,7 +22,7 @@ const PAGE_SIZE = 10;
 export const Home = ({navigation}: HomeScreenProps) => {
   const [limit, setLimit] = React.useState(PAGE_SIZE);
   const {data, loading, refetch, fetchMore} = useQuery<ListUsersData, PageData>(
-    GET_USERS,
+    GET_USERS_QUERY,
     {
       variables: {
         offset: 0,

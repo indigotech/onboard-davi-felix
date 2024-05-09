@@ -10,48 +10,26 @@ import {Alert, SafeAreaView, Text, View} from 'react-native';
 import {globalStyles} from '@src/globalStyles';
 import {userDetailStyles} from './styles';
 
-import {gql, useQuery} from '@apollo/client';
+import {useQuery} from '@apollo/client';
 
 import {formatDate, formatPhoneNumber} from '@src/utils/formatting';
+
+import {
+  GetUserResponse,
+  GetUserVariables,
+  FETCH_USER_QUERY,
+} from '@src/graphql/userDetail';
 
 type UserDetailScreenProps = NativeStackScreenProps<
   RootStackParamsList,
   'UserDetail'
 >;
 
-interface GetUserVariables {
-  userId: number;
-}
-
-interface GetUserResponse {
-  user: {
-    name: string;
-    email: string;
-    phone: string;
-    role: 'user' | 'admin';
-    password: string;
-    birthDate: string;
-  };
-}
-
-const FETCH_USER = gql`
-  query GetUser($userId: ID) {
-    user(id: $userId) {
-      name
-      email
-      birthDate
-      id
-      phone
-      role
-    }
-  }
-`;
-
 export const UserDetail = ({route}: UserDetailScreenProps) => {
   const {userId} = route?.params;
 
   const {data, loading, refetch} = useQuery<GetUserResponse, GetUserVariables>(
-    FETCH_USER,
+    FETCH_USER_QUERY,
     {
       notifyOnNetworkStatusChange: true,
       onError: handleQueryError,
