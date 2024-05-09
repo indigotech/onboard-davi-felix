@@ -18,6 +18,7 @@ const PAGE_SIZE = 10;
 
 export const Home = ({navigation}: ScreenProps<'Home'>) => {
   const [limit, setLimit] = React.useState(PAGE_SIZE);
+  const [refreshing, setRefresing] = React.useState(false);
   const {data, loading, refetch, fetchMore} = useQuery<ListUsersData, PageData>(
     GET_USERS_QUERY,
     {
@@ -71,6 +72,12 @@ export const Home = ({navigation}: ScreenProps<'Home'>) => {
     });
   }
 
+  async function handleRefresh() {
+    setRefresing(true);
+    await refetch({offset: 0, limit: PAGE_SIZE});
+    setRefresing(false);
+  }
+
   return (
     <GlobalContainer>
       <Title>Lista de usuários</Title>
@@ -89,8 +96,8 @@ export const Home = ({navigation}: ScreenProps<'Home'>) => {
             loading ? null : <Text>Sem usuários para listar</Text>
           }
           onEndReached={handleEndReached}
-          refreshing={loading}
-          onRefresh={() => refetch({offset: 0, limit: PAGE_SIZE})}
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
         />
         {loading ? <LoadingIndicator /> : null}
       </View>
