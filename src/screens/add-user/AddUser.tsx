@@ -5,7 +5,6 @@ import {
   ScrollView,
   Text,
   View,
-  SafeAreaView,
   Alert,
 } from 'react-native';
 
@@ -14,7 +13,7 @@ import {SubmitButton} from '@src/components/submit-button/SubmitButton';
 import DatePicker from 'react-native-date-picker';
 import RNPickerSelect from 'react-native-picker-select';
 
-import {globalStyles} from '@src/globalStyles';
+import {GlobalContainer, Title} from '@src/globalStyles';
 import {addUserStyles} from './styles';
 import {formFieldStyles} from '@src/components/form-field/styles';
 
@@ -96,8 +95,8 @@ export const AddUser = ({navigation}: ScreenProps<'AddUser'>) => {
   }
 
   return (
-    <SafeAreaView style={globalStyles.container}>
-      <Text style={globalStyles.title}>Adicionar novo usuário</Text>
+    <GlobalContainer>
+      <Title>Adicionar novo usuário</Title>
       <KeyboardAvoidingView
         style={addUserStyles.keyboardAvoigindViewStyles}
         behavior="padding"
@@ -175,6 +174,6 @@ export const AddUser = ({navigation}: ScreenProps<'AddUser'>) => {
           loading={loading}
         />
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </GlobalContainer>
   );
 };

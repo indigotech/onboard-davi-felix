@@ -4,9 +4,9 @@ import {ScreenProps} from '../Routes';
 
 import {LoadingIndicator} from '@src/components/loading-indicator/LoadingIndicator';
 
-import {Alert, SafeAreaView, Text, View} from 'react-native';
+import {Alert, Text, View} from 'react-native';
+import {GlobalContainer, Title} from '@src/globalStyles';
 
-import {globalStyles} from '@src/globalStyles';
 import {userDetailStyles} from './styles';
 
 import {useQuery} from '@apollo/client';
@@ -62,8 +62,8 @@ export const UserDetail = ({route}: ScreenProps<'UserDetail'>) => {
   }
 
   return (
-    <SafeAreaView style={globalStyles.container}>
-      <Text style={globalStyles.title}>Detalhes do usuário</Text>
+    <GlobalContainer>
+      <Title>Detalhes do usuário</Title>
       <View>
         <View style={userDetailStyles.userDetailsContainer}>
           <Text>
@@ -98,6 +98,6 @@ export const UserDetail = ({route}: ScreenProps<'UserDetail'>) => {
           </Text>
         </View>
       </View>
-    </SafeAreaView>
+    </GlobalContainer>
   );
 };

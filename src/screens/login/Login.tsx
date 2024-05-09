@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Text, View, SafeAreaView} from 'react-native';
+import {Text, View} from 'react-native';
 import {LoginForm} from './components/LoginForm';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useMutation} from '@apollo/client';
 
 import {loginStyles} from './styles';
-import {globalStyles} from '@src/globalStyles';
+import {GlobalContainer, Title} from '@src/globalStyles';
 
 import {ScreenProps} from '../Routes';
 
@@ -49,10 +49,9 @@ export const Login = ({navigation}: ScreenProps<'Login'>) => {
   }
 
   return (
-    <SafeAreaView style={globalStyles.container}>
+    <GlobalContainer>
+      <Title>Bem-vindo(a) à Taqtile</Title>
       <View style={loginStyles.loginContainer}>
-        <Text style={globalStyles.title}>Bem-vindo(a) à Taqtile</Text>
-
         <LoginForm
           email={email}
           onEmailChange={setEmail}
@@ -66,6 +65,6 @@ export const Login = ({navigation}: ScreenProps<'Login'>) => {
           <Text style={loginStyles.feedbackText}>{error?.message}</Text>
         ) : null}
       </View>
-    </SafeAreaView>
+    </GlobalContainer>
   );
 };
