@@ -7,4 +7,9 @@ export const addUserStyles = StyleSheet.create({
   datePickerContainer: {
     alignItems: 'center',
   },
+  keyboardAvoigindViewStyles: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
 });
