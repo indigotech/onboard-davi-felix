@@ -5,35 +5,33 @@ import {LoginForm} from './components/LoginForm';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {useMutation, gql} from '@apollo/client';
-
-const LOGIN_USER = gql`
-  mutation Login($input: LoginInput!) {
-    login(data: $input) {
-      token
-    }
-  }
-`;
+import {useMutation} from '@apollo/client';
 
 import {loginStyles} from './styles';
 import {globalStyles} from '@src/globalStyles';
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamsList} from '../Routes';
+import {ScreenProps} from '../Routes';
 
-type LoginScreenProps = NativeStackScreenProps<RootStackParamsList, 'Login'>;
+import {
+  LoginResponse,
+  LoginVariables,
+  LOGIN_USER_MUTATION,
+} from '@src/graphql/login';
 
-export const Login = ({navigation}: LoginScreenProps) => {
+export const Login = ({navigation}: ScreenProps<'Login'>) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const [loginUser, {data, loading, error}] = useMutation(LOGIN_USER, {
+  const [loginUser, {data, loading, error}] = useMutation<
+    LoginResponse,
+    LoginVariables
+  >(LOGIN_USER_MUTATION, {
     onCompleted: handleLoginComplete,
     onError: () => {},
   });
 
   async function handleLoginComplete() {
-    const token = data.login.token;
+    const token = data?.login.token ?? '';
     try {
       await AsyncStorage.setItem('ONBOARDING-APP:accessToken', token);
       navigation.navigate('Home');

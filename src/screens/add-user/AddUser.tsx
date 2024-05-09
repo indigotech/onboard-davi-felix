@@ -18,49 +18,23 @@ import {globalStyles} from '@src/globalStyles';
 import {addUserStyles} from './styles';
 import {formFieldStyles} from '@src/components/form-field/styles';
 
+import {validateNewUser, ErrorObjectIndex, noErrors} from './validation';
+
+import {ScreenProps} from '../Routes';
+
+import {ApolloError, useMutation} from '@apollo/client';
+
 import {
-  validateNewUser,
-  NewUser,
-  ErrorObjectIndex,
-  noErrors,
-} from './validation';
+  AddUserResponse,
+  AddUserVariables,
+  ADD_USER_MUTATION,
+} from '@src/graphql/addUser';
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamsList} from '../Routes';
-
-import {ApolloError, gql, useMutation} from '@apollo/client';
-
-interface AddUserResponse {
-  data: {
-    createUser: {
-      id: number;
-      name: string;
-    };
-  };
-}
-interface AddUserVariables {
-  data: NewUser;
-}
-
-type AddUserScreenProps = NativeStackScreenProps<
-  RootStackParamsList,
-  'AddUser'
->;
-
-const ADD_USER = gql`
-  mutation CreateNewUser($data: UserInput!) {
-    createUser(data: $data) {
-      id
-      name
-    }
-  }
-`;
-
-export const AddUser = ({navigation}: AddUserScreenProps) => {
+export const AddUser = ({navigation}: ScreenProps<'AddUser'>) => {
   const [addUser, {loading, reset}] = useMutation<
     AddUserResponse,
     AddUserVariables
-  >(ADD_USER, {
+  >(ADD_USER_MUTATION, {
     onCompleted: handleCreateNewUserComplete,
     onError: handleCreateNewUserError,
     refetchQueries: ['ListUsers'],

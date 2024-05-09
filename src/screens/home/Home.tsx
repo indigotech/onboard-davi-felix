@@ -8,59 +8,18 @@ import {homeStyles} from './styles';
 import {LoadingIndicator} from '@src/components/loading-indicator/LoadingIndicator';
 import {FloatingActionButton} from '@src/components/floating-action-button/FloatingActionButton';
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamsList} from '../Routes';
+import {ScreenProps} from '../Routes';
 
-import {gql, useQuery} from '@apollo/client';
+import {useQuery} from '@apollo/client';
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
-interface PageInfo {
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-  offset: number;
-  limit: number;
-}
-
-interface ListUsersData {
-  users: {
-    nodes: User[];
-    pageInfo: PageInfo;
-  };
-}
-
-interface PageData {
-  offset: number;
-  limit: number;
-}
-
-const GET_USERS = gql`
-  query ListUsers($offset: Int, $limit: Int) {
-    users(data: {offset: $offset, limit: $limit}) {
-      nodes {
-        id
-        name
-        email
-      }
-      pageInfo {
-        hasNextPage
-      }
-    }
-  }
-`;
-
-type HomeScreenProps = NativeStackScreenProps<RootStackParamsList, 'Home'>;
+import {ListUsersData, PageData, GET_USERS_QUERY} from '@src/graphql/listUsers';
 
 const PAGE_SIZE = 10;
 
-export const Home = ({navigation}: HomeScreenProps) => {
+export const Home = ({navigation}: ScreenProps<'Home'>) => {
   const [limit, setLimit] = React.useState(PAGE_SIZE);
   const {data, loading, refetch, fetchMore} = useQuery<ListUsersData, PageData>(
-    GET_USERS,
+    GET_USERS_QUERY,
     {
       variables: {
         offset: 0,
@@ -106,6 +65,12 @@ export const Home = ({navigation}: HomeScreenProps) => {
     navigation.navigate('AddUser');
   }
 
+  function handleUserPress(userId: number) {
+    navigation.navigate('UserDetail', {
+      userId,
+    });
+  }
+
   return (
     <SafeAreaView style={globalStyles.container}>
       <Text style={globalStyles.title}>Lista de usuários</Text>
@@ -113,7 +78,11 @@ export const Home = ({navigation}: HomeScreenProps) => {
         <FlatList
           data={users}
           renderItem={({item}) => (
-            <UserItem name={item.name} email={item.email} />
+            <UserItem
+              name={item.name}
+              email={item.email}
+              onPress={() => handleUserPress(item.id)}
+            />
           )}
           keyExtractor={item => String(item.id)}
           ListEmptyComponent={<Text>Sem usuários para listar</Text>}
