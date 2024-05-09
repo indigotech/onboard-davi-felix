@@ -58,12 +58,13 @@ type HomeScreenProps = NativeStackScreenProps<RootStackParamsList, 'Home'>;
 const PAGE_SIZE = 10;
 
 export const Home = ({navigation}: HomeScreenProps) => {
+  const [limit, setLimit] = React.useState(PAGE_SIZE);
   const {data, loading, refetch, fetchMore} = useQuery<ListUsersData, PageData>(
     GET_USERS,
     {
       variables: {
         offset: 0,
-        limit: PAGE_SIZE,
+        limit,
       },
       onError: showAlert,
       notifyOnNetworkStatusChange: true,
@@ -89,11 +90,16 @@ export const Home = ({navigation}: HomeScreenProps) => {
   }
 
   function handleEndReached() {
-    fetchMore({
-      variables: {
-        offset: users.length,
-      },
-    });
+    if (data?.users.pageInfo.hasNextPage) {
+      fetchMore({
+        variables: {
+          offset: users.length,
+          limit: PAGE_SIZE,
+        },
+      }).then(result => {
+        setLimit(users.length + result.data.users.nodes.length);
+      });
+    }
   }
 
   function handlePressAddButton() {
