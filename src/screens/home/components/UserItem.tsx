@@ -13,10 +13,10 @@ export const UserItem = ({name, email, onPress}: UserItemProps) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={userItemStyles.userContainer}>
-        <Text>
+        <Text style={userItemStyles.usetItemText}>
           <Text style={userItemStyles.mainText}>Nome:</Text> {name}
         </Text>
-        <Text>
+        <Text style={userItemStyles.usetItemText}>
           <Text style={userItemStyles.mainText}>E-mail:</Text> {email}
         </Text>
       </View>

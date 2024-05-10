@@ -8,7 +8,11 @@ export const userItemStyles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 16,
   },
+  usetItemText: {
+    color: 'black',
+  },
   mainText: {
+    color: 'black',
     fontWeight: 'bold',
   },
 });

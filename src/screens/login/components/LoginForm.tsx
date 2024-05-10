@@ -63,6 +63,7 @@ export const LoginForm = ({
           autoCorrect={false}
           fieldLabel="E-mail"
           errorText={emailError}
+          placeholder="mail@taqtile.com.br"
         />
         <FormField
           value={password}
@@ -70,6 +71,7 @@ export const LoginForm = ({
           secureTextEntry
           fieldLabel="Senha"
           errorText={passwordError}
+          autoCapitalize="none"
         />
       </View>
 

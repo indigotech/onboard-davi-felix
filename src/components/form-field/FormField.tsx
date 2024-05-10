@@ -23,6 +23,7 @@ export const FormField = ({
         onChangeText={onChangeText}
         style={formFieldStyles.input}
         {...props}
+        placeholderTextColor="#a6a6a6"
       />
       <Text style={formFieldStyles.errorsText}>{errorText}</Text>
     </View>
