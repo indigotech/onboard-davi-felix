@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import {ActivityIndicator, Text, TouchableOpacity} from 'react-native';
+import {ActivityIndicator} from 'react-native';
 
-import {submitButtonStyles} from './styles';
+import {SubmitButtonElement, SubmitButtonText} from './styles';
 
 interface SubmitButtonProps {
   loading: boolean;
@@ -16,15 +16,12 @@ export const SubmitButton = ({
   text,
 }: SubmitButtonProps) => {
   return (
-    <TouchableOpacity
-      style={submitButtonStyles.submitButton}
-      onPress={onFormSubmit}
-      disabled={loading}>
+    <SubmitButtonElement onPress={onFormSubmit} disabled={loading}>
       {!loading ? (
-        <Text style={submitButtonStyles.submitButtoText}>{text}</Text>
+        <SubmitButtonText>{text}</SubmitButtonText>
       ) : (
         <ActivityIndicator />
       )}
-    </TouchableOpacity>
+    </SubmitButtonElement>
   );
 };

@@ -1,11 +1,6 @@
-import {StyleSheet} from 'react-native';
+import styled from 'styled-components/native';
 
-export const loginStyles = StyleSheet.create({
-  loginContainer: {
-    marginTop: 32,
-  },
-  feedbackText: {
-    marginVertical: 40,
-    color: '#fc4444',
-  },
-});
+export const FeedbackText = styled.Text`
+  margin-top: 40px;
+  color: #fc4444;
+`;

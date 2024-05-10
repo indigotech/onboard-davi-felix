@@ -1,11 +1,10 @@
 import * as React from 'react';
 
-import {Text, Alert, FlatList, View} from 'react-native';
+import {Text, Alert, FlatList, View, ActivityIndicator} from 'react-native';
 
 import {GlobalContainer, Title} from '@src/globalStyles';
 import {UserItem} from './components/UserItem';
 import {homeStyles} from './styles';
-import {LoadingIndicator} from '@src/components/loading-indicator/LoadingIndicator';
 import {FloatingActionButton} from '@src/components/floating-action-button/FloatingActionButton';
 
 import {ScreenProps} from '../Routes';
@@ -123,7 +122,7 @@ export const Home = ({navigation, route}: ScreenProps<'Home'>) => {
           refreshing={refreshing}
           onRefresh={handleRefresh}
         />
-        {loading ? <LoadingIndicator /> : null}
+        {loading ? <ActivityIndicator /> : null}
       </View>
       <FloatingActionButton
         onPress={handlePressAddButton}

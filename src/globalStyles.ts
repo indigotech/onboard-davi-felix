@@ -1,12 +1,13 @@
 import styled from 'styled-components/native';
 
 export const GlobalContainer = styled.SafeAreaView`
-  margin: 32px 8px;
+  margin: 0 8px;
   flex: 1;
 `;
 
 export const Title = styled.Text`
-  color: #090909;
-  font-size: 32px;
+  color: #000;
+  font-size: 24px;
+  margin: 20px 0;
   font-weight: bold;
 `;

@@ -1,7 +1,9 @@
 import * as React from 'react';
-import {Text, TextInput, TextInputProps, View} from 'react-native';
+import {TextInputProps} from 'react-native';
 
-import {formFieldStyles} from './styles';
+import {GenericField} from './GenericField';
+
+import {InputField} from './styles';
 
 interface FormFieldProps extends TextInputProps {
   errorText: string;
@@ -16,16 +18,13 @@ export const FormField = ({
   ...props
 }: FormFieldProps) => {
   return (
-    <View>
-      <Text style={formFieldStyles.inputLabel}>{fieldLabel}</Text>
-      <TextInput
+    <GenericField errorText={errorText} fieldLabel={fieldLabel}>
+      <InputField
         value={value}
         onChangeText={onChangeText}
-        style={formFieldStyles.input}
         {...props}
         placeholderTextColor="#a6a6a6"
       />
-      <Text style={formFieldStyles.errorsText}>{errorText}</Text>
-    </View>
+    </GenericField>
   );
 };

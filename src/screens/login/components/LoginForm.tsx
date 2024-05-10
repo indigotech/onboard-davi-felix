@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import {View, Keyboard, KeyboardAvoidingView} from 'react-native';
+import {Keyboard, KeyboardAvoidingView} from 'react-native';
 
-import {loginFormStyles} from './styles';
+import {InputContainer} from './styles';
 import {validateLoginData} from '../validation';
 import {FormField} from '@src/components/form-field/FormField';
 import {SubmitButton} from '@src/components/submit-button/SubmitButton';
@@ -54,7 +54,7 @@ export const LoginForm = ({
 
   return (
     <KeyboardAvoidingView>
-      <View style={loginFormStyles.inputContainer}>
+      <InputContainer>
         <FormField
           value={email}
           onChangeText={onEmailChange}
@@ -73,7 +73,7 @@ export const LoginForm = ({
           errorText={passwordError}
           autoCapitalize="none"
         />
-      </View>
+      </InputContainer>
 
       <SubmitButton
         onFormSubmit={handleFormSubmit}
