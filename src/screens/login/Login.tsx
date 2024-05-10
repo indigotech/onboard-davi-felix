@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import {LoginForm} from './components/LoginForm';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useMutation} from '@apollo/client';
 
-import {loginStyles} from './styles';
+import {FeedbackText} from './styles';
 import {GlobalContainer, Title} from '@src/globalStyles';
 
 import {ScreenProps} from '../Routes';
@@ -51,7 +51,7 @@ export const Login = ({navigation}: ScreenProps<'Login'>) => {
   return (
     <GlobalContainer>
       <Title>Bem-vindo(a) à Taqtile</Title>
-      <View style={loginStyles.loginContainer}>
+      <View>
         <LoginForm
           email={email}
           onEmailChange={setEmail}
@@ -61,9 +61,7 @@ export const Login = ({navigation}: ScreenProps<'Login'>) => {
           loading={loading}
         />
 
-        {error ? (
-          <Text style={loginStyles.feedbackText}>{error?.message}</Text>
-        ) : null}
+        {error ? <FeedbackText>{error?.message}</FeedbackText> : null}
       </View>
     </GlobalContainer>
   );

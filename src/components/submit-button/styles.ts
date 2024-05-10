@@ -1,18 +1,18 @@
-import {StyleSheet} from 'react-native';
+import styled from 'styled-components/native';
 
-export const submitButtonStyles = StyleSheet.create({
-  submitButton: {
-    backgroundColor: '#6d50f2',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 48,
-    paddingVertical: 8,
-    borderRadius: 16,
-    marginTop: 32,
-  },
-  submitButtoText: {
-    color: '#fff',
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-});
+export const SubmitButtonElement = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+
+  background-color: #6d50f2;
+  height: 44px;
+  font-size: 16px;
+  padding: 8px 0;
+`;
+
+export const SubmitButtonText = styled.Text`
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+`;

@@ -1,21 +1,14 @@
 import * as React from 'react';
 
-import {
-  KeyboardAvoidingView,
-  ScrollView,
-  Text,
-  View,
-  Alert,
-} from 'react-native';
+import {KeyboardAvoidingView, ScrollView, Alert} from 'react-native';
 
 import {FormField} from '@src/components/form-field/FormField';
 import {SubmitButton} from '@src/components/submit-button/SubmitButton';
-import DatePicker from 'react-native-date-picker';
-import RNPickerSelect from 'react-native-picker-select';
+import {PickerSelectField} from '@src/components/form-field/PickerSelectField';
+import {DatePickerField} from '@src/components/form-field/DatePickerField';
 
 import {GlobalContainer, Title} from '@src/globalStyles';
 import {addUserStyles} from './styles';
-import {formFieldStyles} from '@src/components/form-field/styles';
 
 import {validateNewUser, ErrorObjectIndex, noErrors} from './validation';
 
@@ -126,19 +119,13 @@ export const AddUser = ({navigation}: ScreenProps<'AddUser'>) => {
             secureTextEntry
             errorText={errors.password?.[0] ?? ''}
           />
-          <View>
-            <Text style={formFieldStyles.inputLabel}>Data de nascimento</Text>
-            <View style={addUserStyles.datePickerContainer}>
-              <DatePicker
-                date={birthDate}
-                onDateChange={setBirthDate}
-                mode="date"
-              />
-            </View>
-            <Text style={formFieldStyles.errorsText}>
-              {errors.birthDate?.[0] ?? ''}
-            </Text>
-          </View>
+          <DatePickerField
+            date={birthDate}
+            onDateChange={setBirthDate}
+            mode="date"
+            errorText={errors.birthDate?.[0] ?? ''}
+            fieldLabel="Data de nascimento"
+          />
           <FormField
             fieldLabel="Telefone"
             onChangeText={setPhone}
@@ -147,27 +134,17 @@ export const AddUser = ({navigation}: ScreenProps<'AddUser'>) => {
             inputMode="numeric"
             placeholder="11970707070"
           />
-          <View>
-            <Text style={formFieldStyles.inputLabel}>Papel</Text>
-            <RNPickerSelect
-              onValueChange={setRole}
-              items={[
-                {label: 'Usuário', value: 'user'},
-                {label: 'Administrador', value: 'admin'},
-              ]}
-              value={role}
-              placeholder={{label: 'Selecione um papel para o usuário'}}
-              style={{
-                inputIOSContainer: formFieldStyles.input,
-                inputAndroidContainer: formFieldStyles.input,
-                inputAndroid: {color: 'black'},
-                inputIOS: {color: 'black'},
-              }}
-            />
-            <Text style={formFieldStyles.errorsText}>
-              {errors.role?.[0] ?? ''}
-            </Text>
-          </View>
+          <PickerSelectField
+            fieldLabel="Seleciona o papel do usuário"
+            errorText={errors.role?.[0] ?? ''}
+            onValueChange={setRole}
+            items={[
+              {label: 'Usuário', value: 'user'},
+              {label: 'Administrador', value: 'admin'},
+            ]}
+            value={role}
+            placeholderString="Selecione um papel para o usuário"
+          />
         </ScrollView>
         <SubmitButton
           onFormSubmit={handleSubmitForm}

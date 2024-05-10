@@ -1,28 +1,29 @@
-import {StyleSheet} from 'react-native';
+import styled from 'styled-components/native';
 
-export const formFieldStyles = StyleSheet.create({
-  errorsText: {
-    color: '#fc4444',
-    fontSize: 10,
-    marginLeft: 8,
-  },
-  inputLabel: {
-    color: '#323232',
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  input: {
-    borderRadius: 8,
-    borderColor: '#bcbcbc',
-    color: 'black',
-    // Borders as the task photo
-    borderBottomWidth: 1,
-    borderTopWidth: 1,
-    borderRightWidth: 3,
-    borderLeftWidth: 3,
-    // Padding vertical
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-    fontSize: 16,
-  },
-});
+export const InputLabel = styled.Text`
+  color: #777;
+  font-size: ${({theme}) => theme.formLabelTextSize};
+  margin-bottom: 12px;
+`;
+
+export const InputField = styled.TextInput`
+  border-radius: 8px;
+  border-color: #bcbcbc;
+  color: #000;
+  border-top-width: ${({theme}) => theme.formFieldBorderTop};
+  border-bottom-width: ${({theme}) => theme.formFieldBorderBottom};
+  border-right-width: ${({theme}) => theme.formFieldBorderRight};
+  border-left-width: ${({theme}) => theme.formFieldBorderLeft};
+  padding: 8px 4px;
+  font-size: ${({theme}) => theme.formInputTextSize};
+`;
+
+export const ErrorsText = styled.Text`
+  color: ${({theme}) => theme.formCaptionTextColor};
+  margin-left: 8px;
+  font-size: ${({theme}) => theme.formCaptionTextSize};
+`;
+
+export const DatePickerContainer = styled.View`
+  align-items: center;
+`;
