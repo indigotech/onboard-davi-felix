@@ -13,7 +13,9 @@ import {UserDetail} from './user-detail/UserDetail';
 
 export type RootStackParamsList = {
   Login: undefined;
-  Home: undefined;
+  Home?: {
+    updateUsers: boolean;
+  };
   AddUser: undefined;
   UserDetail: {
     userId: number;
@@ -32,7 +34,11 @@ export const Routes = () => {
         initialRouteName="Login"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          initialParams={{updateUsers: false}}
+        />
         <Stack.Screen name="AddUser" component={AddUser} />
         <Stack.Screen name="UserDetail" component={UserDetail} />
       </Stack.Navigator>

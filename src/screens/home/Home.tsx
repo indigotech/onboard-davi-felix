@@ -22,7 +22,8 @@ import {useFocusEffect} from '@react-navigation/native';
 
 const PAGE_SIZE = 10;
 
-export const Home = ({navigation}: ScreenProps<'Home'>) => {
+export const Home = ({navigation, route}: ScreenProps<'Home'>) => {
+  const updateUsers = route.params?.updateUsers;
   const [currentPage, setCurrentPage] = React.useState(0);
   const [users, setUsers] = React.useState<User[]>([]);
   const [refreshing, setRefresing] = React.useState(false);
@@ -40,8 +41,19 @@ export const Home = ({navigation}: ScreenProps<'Home'>) => {
     },
   );
 
+  const handleRefetchQuery = React.useCallback(() => {
+    setUsers([]);
+    setCurrentPage(0);
+  }, [setUsers, setCurrentPage]);
+
   useFocusEffect(
-    React.useCallback(handleRefetchQuery, [setUsers, setCurrentPage]),
+    React.useCallback(() => {
+      if (updateUsers) {
+        handleRefetchQuery();
+      }
+      // Ensures that users will no update on gesture goBack
+      navigation.setParams({updateUsers: false});
+    }, [handleRefetchQuery, updateUsers, navigation]),
   );
 
   function showAlert() {
@@ -58,11 +70,6 @@ export const Home = ({navigation}: ScreenProps<'Home'>) => {
         },
       ],
     );
-  }
-
-  function handleRefetchQuery() {
-    setUsers([]);
-    setCurrentPage(0);
   }
 
   function handleQueryCompleted(reponseData: ListUsersData) {
