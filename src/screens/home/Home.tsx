@@ -12,26 +12,37 @@ import {ScreenProps} from '../Routes';
 
 import {useQuery} from '@apollo/client';
 
-import {ListUsersData, PageData, GET_USERS_QUERY} from '@src/graphql/listUsers';
+import {
+  ListUsersData,
+  PageData,
+  GET_USERS_QUERY,
+  User,
+} from '@src/graphql/listUsers';
+import {useFocusEffect} from '@react-navigation/native';
 
 const PAGE_SIZE = 10;
 
 export const Home = ({navigation}: ScreenProps<'Home'>) => {
-  const [limit, setLimit] = React.useState(PAGE_SIZE);
+  const [currentPage, setCurrentPage] = React.useState(0);
+  const [users, setUsers] = React.useState<User[]>([]);
   const [refreshing, setRefresing] = React.useState(false);
-  const {data, loading, refetch, fetchMore} = useQuery<ListUsersData, PageData>(
+  const {data, loading, refetch} = useQuery<ListUsersData, PageData>(
     GET_USERS_QUERY,
     {
       variables: {
-        offset: 0,
-        limit,
+        offset: currentPage * PAGE_SIZE,
+        limit: PAGE_SIZE,
       },
       onError: showAlert,
+      onCompleted: handleQueryCompleted,
       notifyOnNetworkStatusChange: true,
+      fetchPolicy: 'no-cache',
     },
   );
 
-  const users = data?.users.nodes ?? [];
+  useFocusEffect(
+    React.useCallback(handleRefetchQuery, [setUsers, setCurrentPage]),
+  );
 
   function showAlert() {
     Alert.alert(
@@ -49,16 +60,21 @@ export const Home = ({navigation}: ScreenProps<'Home'>) => {
     );
   }
 
+  function handleRefetchQuery() {
+    setUsers([]);
+    setCurrentPage(0);
+  }
+
+  function handleQueryCompleted(reponseData: ListUsersData) {
+    if (reponseData) {
+      const newUsers = reponseData.users.nodes;
+      setUsers(oldUsers => [...oldUsers, ...newUsers]);
+    }
+  }
+
   function handleEndReached() {
     if (data?.users.pageInfo.hasNextPage) {
-      fetchMore({
-        variables: {
-          offset: users.length,
-          limit: PAGE_SIZE,
-        },
-      }).then(result => {
-        setLimit(users.length + result.data.users.nodes.length);
-      });
+      setCurrentPage(currPage => currPage + 1);
     }
   }
 
@@ -74,7 +90,7 @@ export const Home = ({navigation}: ScreenProps<'Home'>) => {
 
   async function handleRefresh() {
     setRefresing(true);
-    await refetch({offset: 0, limit: PAGE_SIZE});
+    handleRefetchQuery();
     setRefresing(false);
   }
 
