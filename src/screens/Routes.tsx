@@ -37,7 +37,7 @@ export const Routes = () => {
         <Stack.Screen
           name="Home"
           component={Home}
-          initialParams={{updateUsers: false}}
+          initialParams={{updateUsers: true}}
         />
         <Stack.Screen name="AddUser" component={AddUser} />
         <Stack.Screen name="UserDetail" component={UserDetail} />

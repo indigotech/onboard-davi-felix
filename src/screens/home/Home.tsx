@@ -51,7 +51,7 @@ export const Home = ({navigation, route}: ScreenProps<'Home'>) => {
       if (updateUsers) {
         handleRefetchQuery();
       }
-      // Ensures that users will no update on gesture goBack
+      // Ensures that users will not update on go back gesture
       navigation.setParams({updateUsers: false});
     }, [handleRefetchQuery, updateUsers, navigation]),
   );

@@ -34,7 +34,7 @@ export const Login = ({navigation}: ScreenProps<'Login'>) => {
     const token = data?.login.token ?? '';
     try {
       await AsyncStorage.setItem('ONBOARDING-APP:accessToken', token);
-      navigation.navigate('Home', {updateUsers: true});
+      navigation.navigate('Home');
     } catch {
       console.log('Error saving token');
     }

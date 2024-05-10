@@ -49,7 +49,7 @@ export const AddUser = ({navigation}: ScreenProps<'AddUser'>) => {
     React.useState<Record<ErrorObjectIndex, string[]>>(noErrors);
 
   function handleCreateNewUserComplete() {
-    navigation.navigate('Home', {updateUsers: true});
+    navigation.navigate('Home');
   }
 
   function handleCreateNewUserError(error: ApolloError) {
