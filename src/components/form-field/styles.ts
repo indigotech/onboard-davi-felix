@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const InputLabel = styled.Text`
   color: #777;
-  font-size: 12px;
+  font-size: ${({theme}) => theme.formLabelTextSize};
   margin-bottom: 12px;
 `;
 
@@ -10,18 +10,18 @@ export const InputField = styled.TextInput`
   border-radius: 8px;
   border-color: #bcbcbc;
   color: #000;
-  border-top-width: 1px;
-  border-bottom-width: 1px;
-  border-right-width: 3px;
-  border-left-width: 3px;
+  border-top-width: ${({theme}) => theme.formFieldBorderTop};
+  border-bottom-width: ${({theme}) => theme.formFieldBorderBottom};
+  border-right-width: ${({theme}) => theme.formFieldBorderRight};
+  border-left-width: ${({theme}) => theme.formFieldBorderLeft};
   padding: 8px 4px;
-  font-size: 12px;
+  font-size: ${({theme}) => theme.formInputTextSize};
 `;
 
 export const ErrorsText = styled.Text`
-  color: #fc4444;
-  font-size: 10px;
+  color: ${({theme}) => theme.formCaptionTextColor};
   margin-left: 8px;
+  font-size: ${({theme}) => theme.formCaptionTextSize};
 `;
 
 export const DatePickerContainer = styled.View`
