@@ -36,7 +36,6 @@ export const AddUser = ({navigation}: ScreenProps<'AddUser'>) => {
   >(ADD_USER_MUTATION, {
     onCompleted: handleCreateNewUserComplete,
     onError: handleCreateNewUserError,
-    refetchQueries: ['ListUsers'],
   });
 
   const [name, setName] = React.useState('');

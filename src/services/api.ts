@@ -20,38 +20,5 @@ const authLink = setContext(async (_, {headers}) => {
 
 export const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          users: {
-            keyArgs: false,
-            merge(existing, incoming, {args}) {
-              const {offset} = args?.data;
-              const merged = existing ? existing?.nodes.slice(0) : [];
-              for (let i = 0; i < incoming.nodes.length; ++i) {
-                merged[offset + i] = incoming.nodes[i];
-              }
-              return {
-                __typename: incoming.__typename,
-                nodes: merged,
-                pageInfo: incoming.pageInfo,
-              };
-            },
-            read(existing, {args}) {
-              const {offset, limit} = args?.data;
-              if (existing) {
-                const users = existing.nodes;
-                return {
-                  nodes: users.slice(offset, offset + limit),
-                  pageInfo: existing.pageInfo,
-                };
-              }
-              return existing;
-            },
-          },
-        },
-      },
-    },
-  }),
+  cache: new InMemoryCache(),
 });
